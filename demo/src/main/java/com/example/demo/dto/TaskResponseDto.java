@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,8 @@ import lombok.NoArgsConstructor;
 public class TaskResponseDto {
 
     private String name;
-    private Integer number;
     private Boolean done;
-
+    private Integer priority;
+    private String uuid;
+    private LocalDateTime dueToDate;
 }

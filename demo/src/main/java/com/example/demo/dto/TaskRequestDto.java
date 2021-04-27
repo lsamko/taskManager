@@ -1,5 +1,10 @@
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +16,11 @@ public class TaskRequestDto {
     @NotNull(message = "Task name can not be null")
     private String name;
 
-    @NotNull(message = "Task number can not be null")
-    private Integer number;
+    @NotNull
+    Integer priority;
+
+    @NotNull
+    LocalDateTime dueToDate;
 
     private Boolean done;
 }
