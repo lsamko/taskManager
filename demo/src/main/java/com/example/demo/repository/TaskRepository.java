@@ -1,36 +1,20 @@
 package com.example.demo.repository;
 
-import com.example.demo.Task;
 import com.example.demo.dto.TaskRequestDto;
-import java.util.Collection;
+import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.entity.Task;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.springframework.data.domain.Pageable;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TaskRepository {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    private Task task;
     Map<String, Task> taskMap = new HashMap<>();
 
-    public void deleteTaskById(String uuid) {
-        taskMap.remove(uuid);
-    }
-
-
-    public Collection<Task> getTasks(Pageable pageable) {
-        return taskMap.values();
-    }
-
-    public Task saveTask(Task task) {
-        taskMap.put(task.getUuid(), task);
-        return task;
-    }
-
-    public Task getTaskById(String uuid) {
-        return taskMap.get(uuid);
-    }
+    Optional<Task> getTaskById(String uuid);
+    void deleteTaskById(String uuid);
 
 }

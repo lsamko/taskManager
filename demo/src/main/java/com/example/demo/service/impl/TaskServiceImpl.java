@@ -1,16 +1,15 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.Task;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.entity.Task;
+import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.TaskService;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,29 +19,25 @@ import org.springframework.stereotype.Service;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
 
 
     @Override
-    public String createTask(TaskRequestDto taskRequestDto) {
-        final String uuid = UUID.randomUUID().toString();
-        final String taskName = taskRequestDto.getName();
-        final Integer priority = taskRequestDto.getPriority();
-        final LocalDateTime dueToDate = taskRequestDto.getDueToDate();
-        final Task toSave = new Task(priority, taskName, uuid, dueToDate);
-        return taskRepository.saveTask(toSave).getUuid();
+    public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
+        Task task = taskMapper.fromRequestDtoToEntity(taskRequestDto);
+        Task taskToSave = taskRepository.save(task);
+        return taskMapper.fromEntityToResponseDto(taskToSave);
     }
 
-
     @Override
-    public Collection<Task> getAllTasks(Integer from, Integer size) {
+    public List<TaskResponseDto> getAllTasks(Integer from, Integer size) {
         Pageable paging = PageRequest.of(from, size);
-
-        return taskRepository.getTasks(paging);
+        Page<Task> pageResult = taskRepository.findAll(paging);
+        return taskMapper.fromEntityListToResponseDtoList(pageResult.getContent());
     }
 
     @Override
-    public Task getTaskById(String uuid) {
-
+    public Optional<Task> getTaskById(String uuid) {
         return taskRepository.getTaskById(uuid);
     }
 

@@ -1,16 +1,20 @@
 package com.example.demo.service;
 
-import com.example.demo.Task;
 import com.example.demo.dto.TaskRequestDto;
-import java.util.Collection;
+import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.entity.Task;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface TaskService {
 
-   String createTask(TaskRequestDto taskRequestDto);
+   TaskResponseDto createTask(TaskRequestDto taskRequestDto);
 
-  Collection<Task> getAllTasks(Integer from, Integer size);
+  List<TaskResponseDto> getAllTasks(Integer from, Integer size);
 
-   Task getTaskById(String uuid);
+   Optional<Task> getTaskById(String uuid);
 
    void deleteTaskById(String uuid);
 }

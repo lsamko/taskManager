@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.Task;
 import com.example.demo.dto.TaskRequestDto;
+import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,20 +28,26 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createTask(@Valid @RequestBody TaskRequestDto taskRequestDto) {
+    public TaskResponseDto createTask(@Valid @RequestBody TaskRequestDto taskRequestDto) {
         return taskService.createTask(taskRequestDto);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Task> getAllTasks(@RequestParam(value = "from", defaultValue = "0")Integer from,
+    public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0")Integer from,
                                             @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return taskService.getAllTasks(from, size);
     }
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Task getTaskById(@PathVariable String uuid){
+    public Optional<Task> getTaskById(@PathVariable String uuid){
+        return taskService.getTaskById(uuid);
+    }
+
+    @DeleteMapping("/{uuid}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Optional<Task> deleteTaskById(@PathVariable String uuid){
         return taskService.getTaskById(uuid);
     }
 
