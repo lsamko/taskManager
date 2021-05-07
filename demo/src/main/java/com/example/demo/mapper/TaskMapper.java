@@ -6,7 +6,7 @@ import com.example.demo.entity.Task;
 import java.util.List;
 import org.mapstruct.Mapper;
 
-@Mapper()
+@Mapper(componentModel = "spring")
 public interface TaskMapper {
     Task fromRequestDtoToEntity(TaskRequestDto taskRequestDto);
     TaskResponseDto fromEntityToResponseDto(Task task);

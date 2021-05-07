@@ -2,11 +2,13 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.TaskService;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,6 +46,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTaskById(String uuid) {
         taskRepository.deleteTaskById(uuid);
+    }
+
+    @Override
+    public TaskResponseDto updateTask(String uuid, TaskUpdateDto taskUpdateDto) {
+        Optional<Task> toUpdate = this.getTaskById(uuid);
+        Task task = toUpdate.orElseThrow(()->new NoSuchElementException());
+        String newName = taskUpdateDto.getName();
+        task.setName(taskUpdateDto.getName());
+        return taskMapper.fromEntityToResponseDto(task);
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
+import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +53,10 @@ public class TaskController {
         return taskService.getTaskById(uuid);
     }
 
-
+    @PutMapping("/{uuid}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateDto taskUpdateDto, @PathVariable String uuid) {
+        return taskService.updateTask(uuid, taskUpdateDto);
+    }
 
 }
