@@ -11,22 +11,21 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Task")
-@Table(name = "TASK")
+@Entity
 @NoArgsConstructor
 @Data
 
 public class Task implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "PRIORITY", nullable = false)
+    @Column(nullable = false)
     private Integer priority;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "UUID", unique = true)
+    @Column(unique = true)
     private String uuid;
 
     @Column(name = "DATE", nullable = false)
