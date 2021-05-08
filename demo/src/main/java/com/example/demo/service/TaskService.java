@@ -6,18 +6,18 @@ import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 
 public interface TaskService {
 
-   TaskResponseDto createTask(TaskRequestDto taskRequestDto);
+    TaskResponseDto createTask(TaskRequestDto taskRequestDto);
 
-  List<TaskResponseDto> getAllTasks(Integer from, Integer size);
+    List<TaskResponseDto> getAllTasks(Integer from, Integer size);
 
-   Optional<Task> getTaskById(String uuid);
+    Optional<Task> findById(UUID uuid);
 
-   void deleteTaskById(String uuid);
+    void deleteById(UUID uuid);
 
-    TaskResponseDto updateTask(String uuid,TaskUpdateDto taskUpdateDto);
+    TaskResponseDto updateById(UUID uuid, TaskUpdateDto taskUpdateDto);
 }

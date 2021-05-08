@@ -10,6 +10,7 @@ import com.example.demo.service.TaskService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,22 +40,20 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> getTaskById(String uuid) {
-        return taskRepository.getTaskById(uuid);
+    public Optional<Task> findById(UUID uuid) {
+        return taskRepository.findTaskById(uuid);
     }
 
     @Override
-    public void deleteTaskById(String uuid) {
+    public void deleteById(UUID uuid) {
         taskRepository.deleteTaskById(uuid);
     }
 
     @Override
-    public TaskResponseDto updateTask(String uuid, TaskUpdateDto taskUpdateDto) {
-        Optional<Task> toUpdate = this.getTaskById(uuid);
-        Task task = toUpdate.orElseThrow(()->new NoSuchElementException());
-        String newName = taskUpdateDto.getName();
+    public TaskResponseDto updateById(UUID uuid, TaskUpdateDto taskUpdateDto) {
+        Optional<Task> toUpdate = this.findById(uuid);
+        Task task = toUpdate.orElseThrow(() -> new NoSuchElementException());
         task.setName(taskUpdateDto.getName());
         return taskMapper.fromEntityToResponseDto(task);
     }
-
 }

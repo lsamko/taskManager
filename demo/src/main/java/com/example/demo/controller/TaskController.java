@@ -7,6 +7,7 @@ import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,27 +37,27 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0")Integer from,
-                                            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0") Integer from,
+        @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return taskService.getAllTasks(from, size);
     }
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Task> getTaskById(@PathVariable String uuid){
-        return taskService.getTaskById(uuid);
+    public Optional<Task> getTaskById(@PathVariable UUID uuid) {
+        return taskService.findById(uuid);
     }
 
     @DeleteMapping("/{uuid}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Optional<Task> deleteTaskById(@PathVariable String uuid){
-        return taskService.getTaskById(uuid);
+    public void deleteTaskById(@PathVariable UUID uuid) {
+        taskService.deleteById(uuid);
     }
 
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateDto taskUpdateDto, @PathVariable String uuid) {
-        return taskService.updateTask(uuid, taskUpdateDto);
+    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateDto taskUpdateDto, @PathVariable UUID uuid) {
+        return taskService.updateById(uuid, taskUpdateDto);
     }
 
 }
