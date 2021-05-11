@@ -44,19 +44,19 @@ public class TaskController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Task> getTaskById(@PathVariable UUID uuid) {
+    public Optional<Task> getTaskById(@PathVariable String uuid) {
         return taskService.findById(uuid);
     }
 
     @DeleteMapping("/{uuid}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void deleteTaskById(@PathVariable UUID uuid) {
+    public void deleteTaskById(@PathVariable String uuid) {
         taskService.deleteById(uuid);
     }
 
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateDto taskUpdateDto, @PathVariable UUID uuid) {
+    public TaskResponseDto updateTask(@Valid @RequestBody TaskUpdateDto taskUpdateDto, @PathVariable String uuid) {
         return taskService.updateById(uuid, taskUpdateDto);
     }
 

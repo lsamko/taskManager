@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
-    @Mapping(target = "uuid", expression = "java(java.util.UUID.randomUUID().toString())")
+    @Mapping(target = "taskId", expression = "java(java.util.UUID.randomUUID().toString())")
     Task fromRequestDtoToEntity(TaskRequestDto taskRequestDto);
     TaskResponseDto fromEntityToResponseDto(Task task);
 

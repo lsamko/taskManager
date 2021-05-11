@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +28,9 @@ public class User implements Serializable {
     private String lastName;
 
     @Column(unique = true)
-    private String userUuid;
+    private String userId;
 
-    @OneToMany(cascade= CascadeType.ALL)
-    private Set<Task> tasks= new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Task> tasks = new HashSet<>();
 
 }

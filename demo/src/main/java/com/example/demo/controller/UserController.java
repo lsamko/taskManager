@@ -4,6 +4,7 @@ import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.entity.User;
+import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final TaskService taskService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,20 +44,26 @@ public class UserController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<User> getUserById(@PathVariable UUID uuid) {
+    public Optional<User> getUserById(@PathVariable String uuid) {
         return userService.findById(uuid);
     }
 
     @DeleteMapping("/{uuid}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void deleteUserById(@PathVariable UUID uuid) {
+    public void deleteUserById(@PathVariable String uuid) {
         userService.deleteById(uuid);
     }
 
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public UserResponseDto updateUserById(@Valid @RequestBody UserUpdateDto userUpdateDto, @PathVariable UUID uuid) {
+    public UserResponseDto updateUserById(@Valid @RequestBody UserUpdateDto userUpdateDto, @PathVariable String uuid) {
         return userService.updateById(uuid, userUpdateDto);
     }
 
+    @GetMapping("/{userId/tasks}")
+    @ResponseStatus(HttpStatus.OK)
+    List<String> getUsersTask(@PathVariable String userId){
+
+        return userService.getUsersTask(userId);
+    }
 }

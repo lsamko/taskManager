@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    Optional<Task> findTaskById(UUID uuid);
-    void deleteTaskById(UUID uuid);
+    Optional<Task> findTaskById(String uuid);
+    void deleteTaskById(String uuid);
 
 }

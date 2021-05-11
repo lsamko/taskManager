@@ -15,9 +15,9 @@ public interface TaskService {
 
     List<TaskResponseDto> getAllTasks(Integer from, Integer size);
 
-    Optional<Task> findById(UUID uuid);
+    Optional<Task> findById(String uuid);
 
-    void deleteById(UUID uuid);
+    void deleteById(String uuid);
 
-    TaskResponseDto updateById(UUID uuid, TaskUpdateDto taskUpdateDto);
+    TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto);
 }

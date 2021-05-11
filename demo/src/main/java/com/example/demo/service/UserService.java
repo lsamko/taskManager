@@ -6,7 +6,6 @@ import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.entity.User;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface UserService {
 
@@ -14,9 +13,11 @@ public interface UserService {
 
     List<UserResponseDto> getAllUsers();
 
-    Optional<User> findById(UUID uuid);
+    Optional<User> findById(String uuid);
 
-    void deleteById(UUID uuid);
+    void deleteById(String uuid);
 
-    UserResponseDto updateById(UUID uuid, UserUpdateDto userUpdateDto);
+    UserResponseDto updateById(String uuid, UserUpdateDto userUpdateDto);
+
+    List<String> getUsersTask(String userId);
 }

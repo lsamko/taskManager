@@ -40,17 +40,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> findById(UUID uuid) {
+    public Optional<Task> findById(String uuid) {
         return taskRepository.findTaskById(uuid);
     }
 
     @Override
-    public void deleteById(UUID uuid) {
+    public void deleteById(String uuid) {
         taskRepository.deleteTaskById(uuid);
     }
 
     @Override
-    public TaskResponseDto updateById(UUID uuid, TaskUpdateDto taskUpdateDto) {
+    public TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto) {
         Optional<Task> toUpdate = this.findById(uuid);
         Task task = toUpdate.orElseThrow(() -> new NoSuchElementException());
         task.setName(taskUpdateDto.getName());
