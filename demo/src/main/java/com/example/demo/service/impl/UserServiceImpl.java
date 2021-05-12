@@ -8,12 +8,12 @@ import com.example.demo.entity.TasksByUser;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final TaskService taskService;
 
     @Override
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
+        List<Task> tasks = taskService.findTasksByIds(userRequestDto.getTaskIds());
         User user = userMapper.fromRequestDtoToEntity(userRequestDto);
+        user.setTasks(tasks);
         User userToSave = userRepository.save(user);
         return userMapper.fromEntityToResponseDto(userToSave);
     }
@@ -40,19 +43,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findById(String uuid) {
-        return userRepository.findUserById(uuid);
+         return userRepository.findUserByUserId(uuid);
+
     }
+
 
     @Override
     public void deleteById(String uuid) {
-        userRepository.deleteUserById(uuid);
+        userRepository.deleteUserByUserId(uuid);
     }
 
     @Override
     public UserResponseDto updateById(String uuid, UserUpdateDto userUpdateDto) {
+        List<Task> tasks = taskService.findTasksByIds(userUpdateDto.getTaskIds());
         Optional<User> toUpdate = findById(uuid);
         User user = toUpdate.orElseThrow(() -> new NoSuchElementException());
-        user.setTasks((Set<Task>) userUpdateDto.getTasks());
+        user.setTasks(tasks);
+        userRepository.save(user);
         return userMapper.fromEntityToResponseDto(user);
     }
 

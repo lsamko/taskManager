@@ -6,7 +6,6 @@ import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 public interface TaskService {
@@ -15,9 +14,13 @@ public interface TaskService {
 
     List<TaskResponseDto> getAllTasks(Integer from, Integer size);
 
+    List<Task> findTasksByIds(List<String> ids);
+
+//ToDo replace with Dto
     Optional<Task> findById(String uuid);
 
     void deleteById(String uuid);
 
     TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto);
+
 }

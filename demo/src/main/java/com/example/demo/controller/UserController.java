@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
+import com.example.demo.entity.Task;
 import com.example.demo.entity.User;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;

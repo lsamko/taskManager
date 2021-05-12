@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserRequestDto {
+
     @NotNull
     private String firstName;
     @NotNull
@@ -18,5 +19,5 @@ public class UserRequestDto {
     @NotNull
     private String userId;
 
-    private List<Task> tasks= new ArrayList<>();
+    private List<String> taskIds = new ArrayList<>();
 }

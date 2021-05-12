@@ -13,7 +13,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
     @Mapping(target = "userId", expression = "java(java.util.UUID.randomUUID().toString())")
     User fromRequestDtoToEntity(UserRequestDto userRequestDto);
 

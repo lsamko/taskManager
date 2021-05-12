@@ -14,4 +14,6 @@ public interface TaskMapper {
     TaskResponseDto fromEntityToResponseDto(Task task);
 
     List<TaskResponseDto> fromEntityListToResponseDtoList(List<Task> tasks);
+
+
 }

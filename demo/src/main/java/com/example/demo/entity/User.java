@@ -1,7 +1,9 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mapstruct.Mapping;
 
 @Entity
 @NoArgsConstructor
@@ -31,6 +34,6 @@ public class User implements Serializable {
     private String userId;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Task> tasks = new HashSet<>();
+    private List<Task> tasks = new ArrayList<>();
 
 }

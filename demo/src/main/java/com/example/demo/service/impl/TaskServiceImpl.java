@@ -7,10 +7,10 @@ import com.example.demo.entity.Task;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.TaskService;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,8 +40,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> findTasksByIds(List<String> ids) {
+        if(ids != null && !ids.isEmpty()) {
+            return taskRepository.findTasksByTaskIdIn(ids);
+        } return Collections.emptyList();
+    }
+
+    @Override
     public Optional<Task> findById(String uuid) {
-        return taskRepository.findTaskById(uuid);
+        return taskRepository.findTaskByTaskId(uuid);
     }
 
     @Override

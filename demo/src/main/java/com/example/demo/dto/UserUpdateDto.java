@@ -20,5 +20,5 @@ public class UserUpdateDto {
     @NotNull
     private String userId;
 
-    private List<Task> tasks = new ArrayList<>();
+    private List<String> taskIds = new ArrayList<>();
 }
