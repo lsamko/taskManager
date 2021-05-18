@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-test-data" author="liudmyla">
+        <insert tableName="task">
+            <column name="id" value="1001"/>
+            <column name="priority" value="1"/>
+            <column name="name"  value="do_workout"/>
+            <column name="task_id" value="001"/>
+            <column name="date" value="2021-05-18T06:30:00"/>
+        </insert>
+
+        <insert tableName="task">
+            <column name="id" value="1002"/>
+            <column name="priority" value="3"/>
+            <column name="name"  value="learn_spring"/>
+            <column name="task_id" value="002"/>
+            <column name="date" value="2021-08-20T06:30:00"/>
+        </insert>
+
+        <insert tableName="user">
+            <column name="id" value="1001"/>
+            <column name="first_name" value="Tony"/>
+            <column name="last_name"  value="Stark"/>
+            <column name="user_id" value="001"/>
+        </insert>
+
+        <insert tableName="user">
+            <column name="id" value="1002"/>
+            <column name="first_name" value="Peggy"/>
+            <column name="last_name"  value="Carter"/>
+            <column name="user_id" value="004"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
