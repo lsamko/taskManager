@@ -1,9 +1,7 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Task;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;

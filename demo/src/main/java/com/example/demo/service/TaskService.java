@@ -23,4 +23,7 @@ public interface TaskService {
 
     TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto);
 
+
+    List<TaskResponseDto> getUsersTask(String userId);
+
 }

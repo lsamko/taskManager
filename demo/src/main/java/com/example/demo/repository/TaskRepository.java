@@ -6,13 +6,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Task> findTaskByTaskId(String uuid);
+
     void deleteTaskById(String uuid);
 
     List<Task> findTasksByTaskIdIn(List<String> ids);
+
+    @Query("select t from Task t where t.name=:userId")
+    List<Task> findTasksByUserId(String userId);
 }

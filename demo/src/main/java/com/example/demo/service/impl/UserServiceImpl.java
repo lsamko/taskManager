@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
@@ -63,15 +64,5 @@ public class UserServiceImpl implements UserService {
         return userMapper.fromEntityToResponseDto(user);
     }
 
-    @Override
-    public List<String> getUsersTask(String userId) {
-        List<String> tasks = new ArrayList<>();
-        Optional<List<TasksByUser>> tasksByUsers = userRepository.findTasksByUserId(userId);
-        if (tasksByUsers.isPresent()) {
-            tasks = tasksByUsers.get().stream()
-                .map(TasksByUser::getUserId)
-                .collect(Collectors.toList());
-        }
-        return tasks;
-    }
+
 }

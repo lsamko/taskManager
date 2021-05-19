@@ -33,6 +33,11 @@
             <column name="last_name"  value="Carter"/>
             <column name="user_id" value="004"/>
         </insert>
+
+        <insert tableName="user_tasks">
+            <column name="user_id" value="1002"/>
+            <column name="tasks_id" value="1001"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

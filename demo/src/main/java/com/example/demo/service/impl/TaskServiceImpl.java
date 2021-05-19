@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,5 +63,14 @@ public class TaskServiceImpl implements TaskService {
         Task task = toUpdate.orElseThrow(() -> new NoSuchElementException());
         task.setName(taskUpdateDto.getName());
         return taskMapper.fromEntityToResponseDto(task);
+    }
+
+    @Override
+    public List<TaskResponseDto> getUsersTask(String userId) {
+        List<Task> tasksByUsers = taskRepository.findTasksByUserId(userId);
+
+       return tasksByUsers.stream()
+            .map(taskMapper::fromEntityToResponseDto)
+            .collect(Collectors.toList());
     }
 }

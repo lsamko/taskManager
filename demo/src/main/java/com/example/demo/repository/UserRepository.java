@@ -16,5 +16,5 @@ public interface UserRepository  extends JpaRepository<User, Long> {
 
     void deleteUserByUserId(String uuid);
 
-    Optional<List<TasksByUser>> findTasksByUserId(String userId);
+    List<TasksByUser> findTasksByUserId(String userId);
 }

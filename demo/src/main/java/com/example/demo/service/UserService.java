@@ -19,5 +19,4 @@ public interface UserService {
 
     UserResponseDto updateById(String uuid, UserUpdateDto userUpdateDto);
 
-    List<String> getUsersTask(String userId);
 }
