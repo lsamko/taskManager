@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS task
+    GO
+DROP TABLE IF EXISTS user
+    GO
+DROP TABLE IF EXISTS user_tasks
+    GO
+
 CREATE TABLE task
 (
     id       BIGINT AUTO_INCREMENT NOT NULL,
@@ -5,6 +12,7 @@ CREATE TABLE task
     name     VARCHAR(255) NOT NULL,
     task_id  VARCHAR(255) NOT NULL,
     date     DATETIME,
+    user_id    VARCHAR(255) NOT NULL,
     CONSTRAINT UNIQUE_NAME
         UNIQUE (name),
     CONSTRAINT PK_ID

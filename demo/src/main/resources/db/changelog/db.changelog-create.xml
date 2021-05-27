@@ -23,6 +23,10 @@
                     nullable="false" notNullConstraintName="nn_task_id" validateNullable="true"/>
             </column>
             <column name="date" type="datetime"/>
+            <column name="user_id" type="varchar(255)">
+                <constraints
+                    nullable="false" notNullConstraintName="nn_user_id" validateNullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 

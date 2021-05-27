@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,8 +39,8 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0") Integer from,
-        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+    public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0") @Min(0) @Valid Integer from,
+        @RequestParam(value = "size", defaultValue = "10")  @Min(10) @Max(100000) @Valid Integer size) {
         return taskService.getAllTasks(from, size);
     }
 

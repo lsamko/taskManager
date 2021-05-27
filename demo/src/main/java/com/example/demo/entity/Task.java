@@ -32,6 +32,8 @@ public class Task implements Serializable {
     @Column(name = "DATE", nullable = false)
     private LocalDateTime dueToDate;
 
+    @Column(unique = true)
+    private String userId;
 }
 
 
