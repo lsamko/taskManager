@@ -1,8 +1,8 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.TaskResponseDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 
-public class Task implements Serializable {
+public class Task extends TaskResponseDto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Task implements Serializable {
     @Column(name = "DATE", nullable = false)
     private LocalDateTime dueToDate;
 
-    @Column(unique = true)
+    @Column
     private String userId;
 }
 

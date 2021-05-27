@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.dto.UserResponseDto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +21,7 @@ import org.mapstruct.Mapping;
 @Entity
 @NoArgsConstructor
 @Data
-public class User implements Serializable {
+public class User extends UserResponseDto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

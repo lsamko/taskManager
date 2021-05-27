@@ -3,11 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
-import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -46,7 +43,7 @@ public class TaskController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Task> getTaskById(@PathVariable String uuid) {
+    public TaskResponseDto getTaskById(@PathVariable String uuid) {
         return taskService.findById(uuid);
     }
 

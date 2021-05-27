@@ -4,11 +4,9 @@ import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
-import com.example.demo.entity.User;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,7 +42,7 @@ public class UserController {
 
     @GetMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<User> getUserById(@PathVariable String uuid) {
+    public UserResponseDto getUserById(@PathVariable String uuid) {
         return userService.findById(uuid);
     }
 

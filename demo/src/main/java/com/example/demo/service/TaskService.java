@@ -5,7 +5,6 @@ import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import java.util.List;
-import java.util.Optional;
 
 
 public interface TaskService {
@@ -16,8 +15,7 @@ public interface TaskService {
 
     List<Task> findTasksByIds(List<String> ids);
 
-//ToDo replace with Dto
-    Optional<Task> findById(String uuid);
+    TaskResponseDto findById(String uuid);
 
     void deleteById(String uuid);
 
@@ -26,4 +24,8 @@ public interface TaskService {
 
     List<TaskResponseDto> getUsersTask(String userId);
 
+
+     boolean isNameChanged(TaskResponseDto toUpdate, String taskName);
+
+     boolean isTaskWithNameExists(String name);
 }
