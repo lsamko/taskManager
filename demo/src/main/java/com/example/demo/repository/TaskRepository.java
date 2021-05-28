@@ -18,6 +18,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findTasksByTaskIdIn(List<String> ids);
 
-    @Query("select t from Task t where t.userId=:userId")
+    //@Query("select t from Task t where t.userId=:userId")
+    @Query(value = "select * from task_manager.task "
+        + "join task_manager.user_tasks as ut on task.id = ut.tasks_id "
+        + "join task_manager.user as u on ut.user_id = u.id "
+        + "where u.user_id =:userId", nativeQuery = true)
     List<Task> findTasksByUserId(String userId);
+
+    boolean existsTaskByName(String name);
 }

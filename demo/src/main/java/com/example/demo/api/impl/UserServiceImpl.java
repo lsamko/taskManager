@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+package com.example.demo.api.impl;
 
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
@@ -9,8 +9,8 @@ import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.exception.UserWithNameAlreadyExistsException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.TaskService;
-import com.example.demo.service.UserService;
+import com.example.demo.api.TaskService;
+import com.example.demo.api.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;

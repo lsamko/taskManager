@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 public class TasksByUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_id", nullable = false)

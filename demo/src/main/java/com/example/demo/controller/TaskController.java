@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
-import com.example.demo.service.TaskService;
+import com.example.demo.api.TaskService;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;

@@ -1,21 +1,29 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @NoArgsConstructor
 public class TaskRequestDto {
 
     @NotNull(message = "Task name can not be null")
+    @Size(min = 2, max = 255)
     private String name;
 
     @NotNull
+    @Min(1)
+    @Max(5)
     Integer priority;
 
     @NotNull
+    @DateTimeFormat
     LocalDateTime dueToDate;
 
     private Boolean done;

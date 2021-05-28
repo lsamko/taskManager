@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+package com.example.demo.api.impl;
 
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
@@ -8,7 +8,7 @@ import com.example.demo.exception.TaskNotFoundException;
 import com.example.demo.exception.TaskWithNameAlreadyExistsException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
-import com.example.demo.service.TaskService;
+import com.example.demo.api.TaskService;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,15 +91,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean isTaskWithNameExists(String name) {
-        Task probe = new Task();
-        probe.setName(name);
 
-        ExampleMatcher matcher = ExampleMatcher.matching()
-            .withMatcher("name", GenericPropertyMatcher::exact)
-            .withIgnorePaths("taskId");
-
-        Example<Task> example = Example.of(probe, matcher);
-
-        return this.taskRepository.count(example) > 0;
+        return taskRepository.existsTaskByName(name);
     }
 }
