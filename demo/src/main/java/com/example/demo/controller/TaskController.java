@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
-import com.example.demo.api.TaskService;
+import com.example.demo.service.TaskService;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -48,9 +48,9 @@ public class TaskController {
     }
 
     @DeleteMapping("/{uuid}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void deleteTaskById(@PathVariable String uuid) {
-        taskService.deleteById(uuid);
+    @ResponseStatus(HttpStatus.OK)
+    public TaskResponseDto deleteTaskById(@PathVariable String uuid) {
+        return taskService.deleteById(uuid);
     }
 
     @PutMapping("/{uuid}")

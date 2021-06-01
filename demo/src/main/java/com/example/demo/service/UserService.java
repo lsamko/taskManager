@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.service;
 
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
@@ -19,5 +19,5 @@ public interface UserService {
 
     boolean isNameChanged(UserResponseDto toUpdate, String userName);
 
-    boolean isUserWithNameExists(String name);
+    boolean isUserWithLastNameExists(String lastName);
 }

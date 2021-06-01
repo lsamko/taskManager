@@ -14,7 +14,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<Task> findTaskByTaskId(String uuid);
 
-    void deleteTaskById(String uuid);
+    Optional<Task> deleteTaskByTaskId(String uuid);
 
     List<Task> findTasksByTaskIdIn(List<String> ids);
 
@@ -26,4 +26,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findTasksByUserId(String userId);
 
     boolean existsTaskByName(String name);
+
+    boolean existsByUserId(String uuid);
 }

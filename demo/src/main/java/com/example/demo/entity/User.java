@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,12 +27,17 @@ public class User extends UserResponseDto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+
+    @Basic
+    @Column(nullable = false, unique = true, length = 255)
     private String firstName;
-    @Column(nullable = false)
+
+    @Basic
+    @Column(nullable = false, length = 255)
     private String lastName;
 
-    @Column(unique = true)
+    @Basic
+    @Column(unique = true, nullable = false, length = 255)
     private String userId;
 
     @OneToMany(cascade = CascadeType.ALL)

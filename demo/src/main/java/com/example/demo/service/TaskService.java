@@ -1,4 +1,4 @@
-package com.example.demo.api;
+package com.example.demo.service;
 
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
@@ -17,7 +17,7 @@ public interface TaskService {
 
     TaskResponseDto findById(String uuid);
 
-    void deleteById(String uuid);
+    TaskResponseDto deleteById(String uuid);
 
     TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto);
 
@@ -28,4 +28,6 @@ public interface TaskService {
      boolean isNameChanged(TaskResponseDto toUpdate, String taskName);
 
      boolean isTaskWithNameExists(String name);
+
+     boolean isUserIdExists(String uuid);
 }

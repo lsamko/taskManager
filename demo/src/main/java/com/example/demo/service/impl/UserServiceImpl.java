@@ -1,4 +1,4 @@
-package com.example.demo.api.impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
@@ -9,13 +9,10 @@ import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.exception.UserWithNameAlreadyExistsException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.api.TaskService;
-import com.example.demo.api.UserService;
+import com.example.demo.service.TaskService;
+import com.example.demo.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +28,12 @@ public class UserServiceImpl implements UserService {
         List<Task> tasks = taskService.findTasksByIds(userRequestDto.getTaskIds());
         User user = userMapper.fromRequestDtoToEntity(userRequestDto);
         user.setTasks(tasks);
+        String newLastName = userRequestDto.getLastName();
+        if (this.isUserWithLastNameExists(newLastName)) {
+            throw new UserWithNameAlreadyExistsException(
+                String.format("User with lastname '%s' already exists", newLastName)
+            );
+        }
         User userToSave = userRepository.save(user);
         return userMapper.fromEntityToResponseDto(userToSave);
     }
@@ -48,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     @Override
     public void deleteById(String uuid) {
         userRepository.deleteUserByUserId(uuid);
@@ -56,10 +58,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto updateById(String uuid, UserUpdateDto userUpdateDto) {
-        List<Task> tasks = taskService.findTasksByIds(userUpdateDto.getTaskIds());
         UserResponseDto toUpdate = this.findById(uuid);
         String newLastName = userUpdateDto.getLastName();
-        if (this.isNameChanged(toUpdate, newLastName) && this.isUserWithNameExists(newLastName)) {
+        if (this.isNameChanged(toUpdate, newLastName) && this.isUserWithLastNameExists(newLastName)) {
             throw new UserWithNameAlreadyExistsException(
                 String.format("User with lastname '%s' already exists", newLastName)
             );
@@ -74,17 +75,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isUserWithNameExists(String lastName) {
-        User probe = new User();
-        probe.setLastName(lastName);
-
-        ExampleMatcher matcher = ExampleMatcher.matching()
-            .withMatcher("lastName", GenericPropertyMatcher::exact)
-            .withIgnorePaths("userId");
-
-        Example<User> example = Example.of(probe, matcher);
-
-        return this.userRepository.count(example) > 0;
-
+    public boolean isUserWithLastNameExists(String lastName) {
+        return userRepository.existsUserByLastName(lastName);
     }
+
 }
