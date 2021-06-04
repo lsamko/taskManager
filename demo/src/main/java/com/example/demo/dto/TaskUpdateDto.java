@@ -18,6 +18,6 @@ public class TaskUpdateDto {
     @NotNull
     LocalDateTime dueToDate;
 
-    private Boolean done;
+    private boolean done;
 
 }

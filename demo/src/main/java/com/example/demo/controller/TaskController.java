@@ -38,7 +38,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public List<TaskResponseDto> getAllTasks(@RequestParam(value = "from", defaultValue = "0") @Min(0) @Valid Integer from,
         @RequestParam(value = "size", defaultValue = "10")  @Min(10) @Max(100000) @Valid Integer size) {
-        return taskService.getAllTasks(from, size);
+        return taskService.findAll(from, size);
     }
 
     @GetMapping("/{uuid}")

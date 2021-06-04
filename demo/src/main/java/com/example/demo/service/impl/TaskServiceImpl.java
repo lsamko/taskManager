@@ -9,7 +9,9 @@ import com.example.demo.exception.TaskWithNameAlreadyExistsException;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TaskService;
+import com.example.demo.service.UserService;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +27,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final UserNotFoundException userNotFoundException;
-
+    private final UserRepository userRepository;
 
     @Override
     public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
@@ -42,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponseDto> getAllTasks(Integer from, Integer size) {
+    public List<TaskResponseDto> findAll(Integer from, Integer size) {
         Pageable paging = PageRequest.of(from, size);
         Page<Task> pageResult = taskRepository.findAll(paging);
         return taskMapper.fromEntityListToResponseDtoList(pageResult.getContent());
@@ -84,8 +85,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskResponseDto> getUsersTask(String userId) {
         List<Task> tasksByUsers = taskRepository.findTasksByUserId(userId);
-        if (this.isUserIdExists(userId)) {
-            throw new UserNotFoundException(String.format("User with id '%s' is not found", userId));
+        if (!this.isUserIdExists(userId)) {
+            throw new UserNotFoundException(String.format("User with id '%s' not found", userId));
         }
         return tasksByUsers.stream()
             .map(taskMapper::fromEntityToResponseDto)
@@ -99,13 +100,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean isTaskWithNameExists(String name) {
-
         return taskRepository.existsTaskByName(name);
     }
 
     @Override
     public boolean isUserIdExists(String uuid) {
-
-        return taskRepository.existsByUserId(uuid);
+        return userRepository.existsTaskByUserId(uuid);
     }
 }

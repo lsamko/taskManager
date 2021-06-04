@@ -79,4 +79,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsUserByLastName(lastName);
     }
 
+    @Override
+    public boolean existsByUserId(String uuid) {
+        return false;
+    }
+
 }

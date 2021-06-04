@@ -11,7 +11,7 @@ public interface TaskService {
 
     TaskResponseDto createTask(TaskRequestDto taskRequestDto);
 
-    List<TaskResponseDto> getAllTasks(Integer from, Integer size);
+    List<TaskResponseDto> findAll(Integer from, Integer size);
 
     List<Task> findTasksByIds(List<String> ids);
 

@@ -38,7 +38,6 @@ public class Task extends TaskResponseDto implements Serializable {
 
     @Basic
     @CreatedDate
-    @DateTimeFormat
     @Column(name = "DATE", nullable = false)
     private LocalDateTime dueToDate;
 

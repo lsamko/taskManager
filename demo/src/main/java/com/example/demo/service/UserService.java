@@ -20,4 +20,6 @@ public interface UserService {
     boolean isNameChanged(UserResponseDto toUpdate, String userName);
 
     boolean isUserWithLastNameExists(String lastName);
+
+    boolean existsByUserId(String uuid);
 }

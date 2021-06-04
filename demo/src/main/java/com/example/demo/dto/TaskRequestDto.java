@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class TaskRequestDto {
     Integer priority;
 
     @NotNull
-    @DateTimeFormat
+    @DateTimeFormat(iso = ISO.DATE)
     LocalDateTime dueToDate;
 
     private Boolean done;

@@ -22,7 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
 
@@ -62,24 +62,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-        HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return new ResponseEntity<>(prepareErrorJson(status, ex), status);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-        HttpStatus status, WebRequest request) {
-        return new ResponseEntity<>(prepareErrorJson(status, ex), status);
-    }
-
-
-    private String prepareErrorJson(HttpStatus status, Exception ex) {
-        JSONObject errorJson = new JSONObject();
-        errorJson.put("status", status.value());
-        errorJson.put("error", status.getReasonPhrase());
-        errorJson.put("message", Objects.requireNonNull(ex.getMessage()).split(":")[0]);
-        return errorJson.toJSONString();
-    }
 }
