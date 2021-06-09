@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 public interface TaskMapper {
     @Mapping(target = "taskId", expression = "java(java.util.UUID.randomUUID().toString())")
     Task fromRequestDtoToEntity(TaskRequestDto taskRequestDto);
-    TaskResponseDto fromEntityToResponseDto(TaskResponseDto task);
+    TaskResponseDto fromEntityToResponseDto(Task task);
 
     List<TaskResponseDto> fromEntityListToResponseDtoList(List<Task> tasks);
 

@@ -18,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @Data
 
-public class Task extends TaskResponseDto implements Serializable {
+public class Task implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

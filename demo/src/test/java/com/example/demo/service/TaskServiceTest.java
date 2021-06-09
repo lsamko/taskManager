@@ -56,7 +56,7 @@ public class TaskServiceTest {
         task.setName(TASK_NAME);
         task.setDueToDate(TASK_DUE_TO_DO);
         task.setPriority(TASK_PRIORITY);
-        task.setDone(false);
+       // task.setDone(false);
     }
 
     @Test

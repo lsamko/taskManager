@@ -24,9 +24,6 @@ public interface TaskService {
 
     List<TaskResponseDto> getUsersTask(String userId);
 
-
-     boolean isNameChanged(TaskResponseDto toUpdate, String taskName);
-
      boolean isTaskWithNameExists(String name);
 
      boolean isUserIdExists(String uuid);

@@ -11,7 +11,6 @@ import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TaskService;
-import com.example.demo.service.UserService;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,19 +58,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseDto findById(String uuid) {
-        return taskRepository.findTaskByTaskId(uuid)
+        Task task = taskRepository.findTaskByTaskId(uuid)
             .orElseThrow(() -> new TaskNotFoundException("Could not find task: " + uuid));
+        return taskMapper.fromEntityToResponseDto(task);
     }
 
     @Override
     public TaskResponseDto deleteById(String uuid) {
-        return taskRepository.deleteTaskByTaskId(uuid)
+        Task task = taskRepository.deleteTaskByTaskId(uuid)
             .orElseThrow(() -> new TaskNotFoundException("Could not find task: " + uuid));
+        return taskMapper.fromEntityToResponseDto(task);
     }
 
     @Override
     public TaskResponseDto updateById(String uuid, TaskUpdateDto taskUpdateDto) {
-        TaskResponseDto toUpdate = this.findById(uuid);
+        Task toUpdate = taskRepository.findTaskByTaskId(uuid)
+            .orElseThrow(() -> new TaskNotFoundException("Could not find task: " + uuid));
         String newName = taskUpdateDto.getName();
         if (this.isNameChanged(toUpdate, newName) && this.isTaskWithNameExists(newName)) {
             throw new TaskWithNameAlreadyExistsException(
@@ -93,8 +95,7 @@ public class TaskServiceImpl implements TaskService {
             .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean isNameChanged(TaskResponseDto toUpdate, String taskName) {
+    private boolean isNameChanged(Task toUpdate, String taskName) {
         return !toUpdate.getName().equals(taskName);
     }
 
