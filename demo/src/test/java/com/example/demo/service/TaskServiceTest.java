@@ -45,7 +45,7 @@ public class TaskServiceTest {
 
     @BeforeEach
     public void setUp() {
-        taskServiceImpl = new TaskServiceImpl(taskRepository, taskMapper, userRepository);
+      //  taskServiceImpl = new TaskServiceImpl(taskRepository, taskMapper, userRepository);
         taskRequestDto = new TaskRequestDto();
         taskRequestDto.setPriority(TASK_PRIORITY);
         taskRequestDto.setName(TASK_NAME);

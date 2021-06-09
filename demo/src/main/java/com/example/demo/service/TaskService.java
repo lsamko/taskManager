@@ -26,5 +26,4 @@ public interface TaskService {
 
      boolean isTaskWithNameExists(String name);
 
-     boolean isUserIdExists(String uuid);
 }

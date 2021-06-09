@@ -26,7 +26,6 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
-    private final UserRepository userRepository;
 
     @Override
     public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
@@ -87,9 +86,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskResponseDto> getUsersTask(String userId) {
         List<Task> tasksByUsers = taskRepository.findTasksByUserId(userId);
-        if (!this.isUserIdExists(userId)) {
-            throw new UserNotFoundException(String.format("User with id '%s' not found", userId));
-        }
         return tasksByUsers.stream()
             .map(taskMapper::fromEntityToResponseDto)
             .collect(Collectors.toList());
@@ -104,8 +100,5 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.existsTaskByName(name);
     }
 
-    @Override
-    public boolean isUserIdExists(String uuid) {
-        return userRepository.existsTaskByUserId(uuid);
-    }
+
 }

@@ -21,11 +21,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final TaskService taskService;
 
     @Override
-    public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        List<Task> tasks = taskService.findTasksByIds(userRequestDto.getTaskIds());
+    public UserResponseDto createUser(UserRequestDto userRequestDto, List<Task> tasks) {
         User user = userMapper.fromRequestDtoToEntity(userRequestDto);
         user.setTasks(tasks);
         String newLastName = userRequestDto.getLastName();
@@ -81,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean existsByUserId(String uuid) {
-        return false;
+        return userRepository.existsByUserId(uuid);
     }
 
 }

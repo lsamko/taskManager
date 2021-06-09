@@ -6,7 +6,9 @@ import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.service.TaskService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.UserTasksFacade;
 import java.util.List;
+import javax.validation.UnexpectedTypeException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,12 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
-    private final TaskService taskService;
+    private final UserTasksFacade userTasksFacade;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto createUser(@Valid @RequestBody UserRequestDto userRequestDto) {
-        return userService.createUser(userRequestDto);
+        return userTasksFacade.createUser(userRequestDto);
     }
 
     @GetMapping
@@ -62,6 +64,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     List<TaskResponseDto> getUsersTask(@PathVariable String userId){
 
-        return taskService.getUsersTask(userId);
+        return userTasksFacade.getUsersTask(userId);
     }
 }

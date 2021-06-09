@@ -3,11 +3,12 @@ package com.example.demo.service;
 import com.example.demo.dto.UserRequestDto;
 import com.example.demo.dto.UserResponseDto;
 import com.example.demo.dto.UserUpdateDto;
+import com.example.demo.entity.Task;
 import java.util.List;
 
 public interface UserService {
 
-    UserResponseDto createUser(UserRequestDto userRequestDto);
+    UserResponseDto createUser(UserRequestDto userRequestDto, List<Task> tasks);
 
     List<UserResponseDto> getAllUsers();
 
@@ -22,4 +23,5 @@ public interface UserService {
     boolean isUserWithLastNameExists(String lastName);
 
     boolean existsByUserId(String uuid);
+
 }

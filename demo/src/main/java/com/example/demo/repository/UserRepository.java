@@ -17,5 +17,5 @@ public interface UserRepository  extends JpaRepository<User, Long> {
     List<TasksByUser> findTasksByUserId(String userId);
 
     boolean existsUserByLastName(String lastName);
-    boolean existsTaskByUserId(String uuid);
+    boolean existsByUserId(String uuid);
 }
