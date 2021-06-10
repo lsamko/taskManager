@@ -1,12 +1,8 @@
 package com.example.demo.entity;
 
-import com.example.demo.dto.UserResponseDto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,12 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mapstruct.Mapping;
 
 @Entity
 @NoArgsConstructor
 @Data
-public class User extends UserResponseDto implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

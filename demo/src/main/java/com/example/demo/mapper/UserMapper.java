@@ -12,7 +12,7 @@ public interface UserMapper {
     @Mapping(target = "userId", expression = "java(java.util.UUID.randomUUID().toString())")
     User fromRequestDtoToEntity(UserRequestDto userRequestDto);
 
-    UserResponseDto fromEntityToResponseDto(UserResponseDto user);
+    UserResponseDto fromEntityToResponseDto(User user);
 
     List<UserResponseDto> fromEntityListToResponseDtoList(List<User> users);
 

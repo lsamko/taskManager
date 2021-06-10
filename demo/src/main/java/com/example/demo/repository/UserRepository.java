@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository  extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByUserId(String uuid);
 
@@ -17,5 +17,8 @@ public interface UserRepository  extends JpaRepository<User, Long> {
     List<TasksByUser> findTasksByUserId(String userId);
 
     boolean existsUserByLastName(String lastName);
+
+    boolean existsUserByFirstName(String firstName);
+
     boolean existsByUserId(String uuid);
 }
