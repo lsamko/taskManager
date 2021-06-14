@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import com.example.demo.dto.TaskResponseDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +44,13 @@ public class Task implements Serializable {
 
     @Column
     private String userId;
+
+    public Task(int priority, String name, String taskId, LocalDateTime dueToDate) {
+        this.priority = priority;
+        this.name =name;
+        this.taskId = taskId;
+        this.dueToDate = dueToDate;
+    }
 }
 
 
