@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Task;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -27,5 +29,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     boolean existsTaskByName(String name);
 
+    List<Task> findTaskByDueToDateBetween(LocalDateTime startDay,LocalDateTime endDay);
 
 }

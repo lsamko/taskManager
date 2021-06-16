@@ -11,6 +11,8 @@ import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TaskService;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,6 +82,7 @@ public class TaskServiceImpl implements TaskService {
             );
         }
         toUpdate.setName(taskUpdateDto.getName());
+        taskRepository.save(toUpdate);
         return taskMapper.fromEntityToResponseDto(toUpdate);
     }
 
@@ -98,6 +101,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public boolean isTaskWithNameExists(String name) {
         return taskRepository.existsTaskByName(name);
+    }
+
+    @Override
+    public List<Task> findTask(LocalDate date) {
+        LocalDateTime startDay = LocalDateTime.of(2021, 6, 16, 00, 00);
+        LocalDateTime endDay = LocalDateTime.of(2021, 6, 16, 23, 59);
+        return taskRepository.findTaskByDueToDateBetween(startDay, endDay);
     }
 
 

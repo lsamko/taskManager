@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.dto.TaskRequestDto;
+import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import com.example.demo.exception.TaskNotFoundException;
@@ -133,22 +134,20 @@ public class TaskServiceTest {
     @Test
     void testUpdateTask() {
         String id = "008";
-        when(taskRepository.existsTaskByName(TASK_NAME)).thenReturn(false);
+        when(taskRepository.existsTaskByName("Hello")).thenReturn(false);
         ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
-        ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
-        when(taskRepository.findTaskByTaskId(idCaptor.capture())).thenReturn(Optional.of(TASK_A));
-        taskServiceImpl.updateById(id,new TaskUpdateDto().name("Hello"));
+        when(taskRepository.findTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
+        TaskResponseDto taskResponse = taskServiceImpl.updateById(id, new TaskUpdateDto().name("Hello"));
 
-        String value = idCaptor.getValue();
-        assertThat(value, is(equalTo(id)));
+        assertThat(taskResponse.getName(), is("Hello"));
 
-        verify(taskRepository.save(taskCaptor.capture()));
+        verify(taskRepository).save(taskCaptor.capture());
 
         Task task = taskCaptor.getValue();
         assertThat(task, is(
             pojo(Task.class)
-            .where(Task::getName, is(equalTo("Hello")))
-            .where(Task::getTaskId, is(equalTo(id)))
+                .where(Task::getName, is("Hello"))
+                .where(Task::getTaskId, is(id))
         ));
     }
 }
