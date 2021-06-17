@@ -105,8 +105,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findTask(LocalDate date) {
-        LocalDateTime startDay = LocalDateTime.of(2021, 6, 16, 00, 00);
-        LocalDateTime endDay = LocalDateTime.of(2021, 6, 16, 23, 59);
+        LocalDate localDate = LocalDate.now();
+        LocalDateTime startDay = localDate.atStartOfDay();
+        LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
         return taskRepository.findTaskByDueToDateBetween(startDay, endDay);
     }
 
