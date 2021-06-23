@@ -4,7 +4,6 @@ import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public interface TaskService {
 
     List<TaskResponseDto> getUsersTask(String userId);
 
-     boolean isTaskWithNameExists(String name);
+    boolean isTaskWithNameExists(String name);
 
     List<Task> findTask(LocalDate date);
 }

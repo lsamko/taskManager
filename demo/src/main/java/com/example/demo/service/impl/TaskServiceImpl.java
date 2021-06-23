@@ -6,10 +6,8 @@ import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import com.example.demo.exception.TaskNotFoundException;
 import com.example.demo.exception.TaskWithNameAlreadyExistsException;
-import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TaskService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -108,8 +106,6 @@ public class TaskServiceImpl implements TaskService {
         LocalDate localDate = LocalDate.now();
         LocalDateTime startDay = localDate.atStartOfDay();
         LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
-        return taskRepository.findTaskByDueToDateBetween(startDay, endDay);
+        return taskRepository.findTaskByDueToDateBetweenAndDoneNot(startDay, endDay, false);
     }
-
-
 }

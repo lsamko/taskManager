@@ -12,7 +12,8 @@ CREATE TABLE task
     name     VARCHAR(255) NOT NULL,
     task_id  VARCHAR(255) NOT NULL,
     date     DATETIME,
-    user_id    VARCHAR(255),
+    done    TINYINT(1) DEFAULT '0',
+    user_id  VARCHAR(255),
     CONSTRAINT UNIQUE_NAME
         UNIQUE (name),
     CONSTRAINT PK_ID

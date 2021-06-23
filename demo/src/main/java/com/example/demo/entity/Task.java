@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,6 +45,10 @@ public class Task implements Serializable {
 
     @Column
     private String userId;
+
+    //@Column(columnDefinition="boolean")
+    @Column(columnDefinition = "TINYINT(1)", length = 1)
+    private Boolean done =false;
 
     public Task(int priority, String name, String taskId, LocalDateTime dueToDate) {
         this.priority = priority;
