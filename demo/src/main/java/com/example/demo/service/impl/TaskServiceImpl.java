@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -105,7 +106,8 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findTask(LocalDate date) {
         LocalDate localDate = LocalDate.now();
         LocalDateTime startDay = localDate.atStartOfDay();
-        LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
-        return taskRepository.findTaskByDueToDateBetweenAndDoneNot(startDay, endDay, false);
+        LocalDateTime endDay = localDate.atTime(23,59, 59);
+        //LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
+        return taskRepository.findTaskByDueToDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
     }
 }

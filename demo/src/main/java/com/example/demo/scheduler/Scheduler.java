@@ -22,15 +22,9 @@ public class Scheduler {
     @Scheduled(cron = "0/10 * * * * *")
     void processTodaysTasks() {
         List<Task> tasks = taskService.findTask(LocalDate.now());
-        Map<Integer, String> map = tasks
-            .stream()
-            .collect(Collectors.toMap(
-                Task::getPriority,
-                Task::getName,
-                (name1, name2) -> name1 + "; " + name2));
-
-        System.out.println(map);
-
+        tasks
+            .stream().map(task -> String.format("name: %s, priority: %s", task.getName(), task.getPriority()))
+            .forEach(LOGGER::info);
     }
 
 //    void processTodaysTasksByName() {
@@ -59,4 +53,16 @@ public class Scheduler {
 //        listOfTasksNames
 //            .forEach((priority, t) -> System.out.format("priority %s: %s\n", priority, t));
 //    }
+
+    //        List<Task> tasks = taskService.findTask(LocalDate.now());
+    //        Map<Integer, String> map = tasks
+    //            .stream()
+    //            .collect(Collectors.toMap(
+    //                Task::getPriority,
+    //                Task::getName,
+    //                (name1, name2) -> name1 + "; " + name2));
+    //
+    //        System.out.println(map);
+    //
+    //    }
 }

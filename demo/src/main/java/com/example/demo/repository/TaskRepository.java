@@ -4,6 +4,7 @@ import com.example.demo.entity.Task;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     boolean existsTaskByName(String name);
 
-    List<Task> findTaskByDueToDateBetweenAndDoneNot(LocalDateTime startDay, LocalDateTime endDay, boolean done);
+    List<Task> findTaskByDueToDateBetweenAndDoneNot(LocalDateTime startDay, LocalDateTime endDay, boolean done, Sort sort);
 
 }
