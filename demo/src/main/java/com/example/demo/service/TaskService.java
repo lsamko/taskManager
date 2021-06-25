@@ -27,4 +27,6 @@ public interface TaskService {
     boolean isTaskWithNameExists(String name);
 
     List<Task> findTask(LocalDate date);
+
+    List<Task> findTasksToBeRescheduled();
 }

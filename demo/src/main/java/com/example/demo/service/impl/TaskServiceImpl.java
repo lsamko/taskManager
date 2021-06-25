@@ -110,4 +110,11 @@ public class TaskServiceImpl implements TaskService {
         //LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
         return taskRepository.findTaskByDueToDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
     }
+
+    @Override
+    public List<Task> findTasksToBeRescheduled() {
+      //ToDo  return taskRepository.findTaskTimeLessThenNowAndSchedule
+        return Collections.emptyList();
+    }
+
 }

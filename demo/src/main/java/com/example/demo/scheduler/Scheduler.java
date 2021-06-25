@@ -27,6 +27,16 @@ public class Scheduler {
             .forEach(LOGGER::info);
     }
 
+
+    @Scheduled(cron = "0/10 * * * * *")
+    void reschedule() {
+        List<Task> tasks = taskService.findTasksToBeRescheduled();
+        //calculate new dueDate
+        //set this date to task
+        // save this tasks in taskService
+
+    }
+
 //    void processTodaysTasksByName() {
 //        List<Task> tasks = taskService.findTask(LocalDate.now());
 //            List<String> listOfTasksNames = tasks.stream()
