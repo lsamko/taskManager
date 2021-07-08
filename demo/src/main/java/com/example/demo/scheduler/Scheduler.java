@@ -2,11 +2,14 @@ package com.example.demo.scheduler;
 
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,7 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class Scheduler {
-
+    public static final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
+    public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
     private static final Logger LOGGER = LoggerFactory.getLogger(Scheduler.class);
     private final TaskService taskService;
 
@@ -30,12 +34,17 @@ public class Scheduler {
 
     @Scheduled(cron = "0/10 * * * * *")
     void reschedule() {
-        List<Task> tasks = taskService.findTasksToBeRescheduled();
+        List<Task> tasks = taskService.findTasksToBeRescheduled(LocalDate.now());
+        LocalDate localDate = LocalDate.now();
+        LocalDateTime dueDate = localDate.atStartOfDay();
+        List<Task> tasksForToday = taskService.findTask(LocalDate.now());
+
         //calculate new dueDate
         //set this date to task
         // save this tasks in taskService
 
     }
+
 
 //    void processTodaysTasksByName() {
 //        List<Task> tasks = taskService.findTask(LocalDate.now());

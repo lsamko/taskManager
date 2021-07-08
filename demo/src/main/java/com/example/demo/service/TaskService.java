@@ -28,5 +28,6 @@ public interface TaskService {
 
     List<Task> findTask(LocalDate date);
 
-    List<Task> findTasksToBeRescheduled();
+    List<Task> findTasksToBeRescheduled(LocalDate date);
+
 }

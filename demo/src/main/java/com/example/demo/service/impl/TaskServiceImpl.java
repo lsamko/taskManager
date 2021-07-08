@@ -112,9 +112,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> findTasksToBeRescheduled() {
+    public List<Task> findTasksToBeRescheduled(LocalDate date) {
       //ToDo  return taskRepository.findTaskTimeLessThenNowAndSchedule
-        return Collections.emptyList();
+        LocalDate localDate = LocalDate.now();
+        LocalDateTime endDay = localDate.atTime(23,59, 59);
+
+        return taskRepository.findTaskByDueToDateBeforeAndDoneNotOrderByDueToDateAsc(endDay, false, Sort.by("priority"));
     }
 
 }
