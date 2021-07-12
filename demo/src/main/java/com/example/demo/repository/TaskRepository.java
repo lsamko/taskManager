@@ -27,8 +27,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     boolean existsTaskByName(String name);
 
-   List<Task> findTaskByDueToDateLessThan(LocalDateTime dueToDate);
+   List<Task> findTaskByDueDateLessThan(LocalDateTime dueDate);
 
-    List<Task> findTaskByDueToDateBetweenAndDoneNot(LocalDateTime startDay, LocalDateTime endDay, boolean done,
+    List<Task> findTaskByDueDateBetweenAndDoneNot(LocalDateTime startDay, LocalDateTime endDay, boolean done,
         Sort sort);
 }

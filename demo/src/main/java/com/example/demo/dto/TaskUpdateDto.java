@@ -17,7 +17,7 @@ public class TaskUpdateDto {
     Integer priority;
 
     @NotNull
-    LocalDateTime dueToDate;
+    LocalDateTime dueDate;
 
     private boolean done;
 
@@ -41,12 +41,12 @@ public class TaskUpdateDto {
         this.priority = priority;
     }
 
-    public LocalDateTime getDueToDate() {
-        return dueToDate;
+    public LocalDateTime getDueDate() {
+        return dueDate;
     }
 
-    public void setDueToDate(LocalDateTime dueToDate) {
-        this.dueToDate = dueToDate;
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 
     public boolean isDone() {

@@ -14,11 +14,13 @@ public class MessageSenderService {
     }
 
     public void sendTasks(String body) {
-
-        Message message = Message.creator(new PhoneNumber("+380667681663"),
-            new PhoneNumber("+12055761544"),
-            body).create();
-
-        System.out.println(message.getSid());
+        int length = body.length();
+        int maxLength = 110;
+        if (length > maxLength) {
+            Message message = Message.creator(new PhoneNumber("+380667681663"),
+                new PhoneNumber("+12055761544"),
+                body.substring(0, maxLength)).create();
+            System.out.println(message.getSid());
+        }
     }
 }

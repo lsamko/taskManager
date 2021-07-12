@@ -13,6 +13,6 @@ public class TaskResponseDto {
     private Boolean done;
     private Integer priority;
     private String taskId;
-    private LocalDateTime dueToDate;
+    private LocalDateTime dueDate;
     private String userId;
 }

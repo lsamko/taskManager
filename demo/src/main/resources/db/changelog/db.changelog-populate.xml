@@ -9,7 +9,7 @@
             <column name="priority" value="1"/>
             <column name="name"  value="do_workout"/>
             <column name="task_id" value="001"/>
-            <column name="date" value="2021-06-23T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value="004"/>
         </insert>
@@ -19,7 +19,7 @@
             <column name="priority" value="3"/>
             <column name="name"  value="learn_spring"/>
             <column name="task_id" value="002"/>
-            <column name="date" value="2021-06-23T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
         </insert>
@@ -28,7 +28,7 @@
             <column name="priority" value="1"/>
             <column name="name"  value="wake_up"/>
             <column name="task_id" value="003"/>
-            <column name="date" value="2021-06-17T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value=""/>
         </insert>
@@ -38,7 +38,7 @@
             <column name="priority" value="5"/>
             <column name="name"  value="go_to_bed"/>
             <column name="task_id" value="004"/>
-            <column name="date" value="2021-06-17T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
         </insert>
@@ -48,7 +48,7 @@
             <column name="priority" value="3"/>
             <column name="name"  value="eat_your_lunch"/>
             <column name="task_id" value="005"/>
-            <column name="date" value="2021-06-17T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value=""/>
         </insert>
@@ -57,7 +57,7 @@
             <column name="priority" value="4"/>
             <column name="name"  value="meet_with_friends"/>
             <column name="task_id" value="006"/>
-            <column name="date" value="2021-06-23T06:30:00"/>
+            <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
         </insert>

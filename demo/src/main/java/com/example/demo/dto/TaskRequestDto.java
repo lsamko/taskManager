@@ -25,7 +25,7 @@ public class TaskRequestDto {
 
     @NotNull
     @DateTimeFormat(iso = ISO.DATE)
-    LocalDateTime dueToDate;
+    LocalDateTime dueDate;
 
     private Boolean done;
 }
