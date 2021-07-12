@@ -41,7 +41,7 @@ public class Task implements Serializable {
     @Basic
     @CreatedDate
     @Column(name = "DATE", nullable = false)
-    private LocalDateTime dueToDate;
+    private LocalDateTime dueDate;
 
     @Column
     private String userId;
@@ -50,11 +50,11 @@ public class Task implements Serializable {
     @Column(columnDefinition = "TINYINT(1)", length = 1)
     private Boolean done =false;
 
-    public Task(int priority, String name, String taskId, LocalDateTime dueToDate) {
+    public Task(int priority, String name, String taskId, LocalDateTime dueDate) {
         this.priority = priority;
         this.name =name;
         this.taskId = taskId;
-        this.dueToDate = dueToDate;
+        this.dueDate = dueDate;
     }
 }
 

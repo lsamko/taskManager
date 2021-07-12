@@ -67,12 +67,12 @@ public class TaskServiceTest {
         taskRequestDto = new TaskRequestDto();
         taskRequestDto.setPriority(TASK_PRIORITY);
         taskRequestDto.setName(TASK_NAME);
-        taskRequestDto.setDueToDate(TASK_DUE_TO_DO);
+        taskRequestDto.setDueDate(TASK_DUE_TO_DO);
         taskRequestDto.setDone(false);
 
         task = new Task();
         task.setName(TASK_NAME);
-        task.setDueToDate(TASK_DUE_TO_DO);
+        task.setDueDate(TASK_DUE_TO_DO);
         task.setPriority(TASK_PRIORITY);
     }
 
@@ -86,7 +86,7 @@ public class TaskServiceTest {
         assertNull(captureTask.getId());
         assertNotNull(captureTask.getTaskId());
         assertEquals(captureTask.getName(), TASK_NAME);
-        assertEquals(captureTask.getDueToDate(), TASK_DUE_TO_DO);
+        assertEquals(captureTask.getDueDate(), TASK_DUE_TO_DO);
         assertEquals(captureTask.getPriority(), TASK_PRIORITY);
     }
 
