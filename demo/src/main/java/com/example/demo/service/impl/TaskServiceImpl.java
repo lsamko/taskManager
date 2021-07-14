@@ -119,6 +119,7 @@ public class TaskServiceImpl implements TaskService {
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
         for (Task task:toUpdate) {
+            //ToDo  сместить таску на сегодня
             LocalDateTime currentDate = task.getDueDate().plusDays(1);
             task.setDueDate(currentDate);
         }
