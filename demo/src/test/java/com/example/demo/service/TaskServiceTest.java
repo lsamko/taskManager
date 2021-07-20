@@ -23,9 +23,11 @@ import com.example.demo.exception.TaskWithNameAlreadyExistsException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.mapper.TaskMapperImpl;
 import com.example.demo.repository.TaskRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.impl.TaskServiceImpl;
+import io.restassured.mapper.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,8 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {
@@ -53,13 +57,15 @@ public class TaskServiceTest {
 
     @Mock
     private TaskRepository taskRepository;
-
-    private TaskMapper taskMapper = new TaskMapperImpl();
-    private TaskServiceImpl taskServiceImpl;
-    private TaskUpdateDto taskUpdateDto;
+    @Mock
     private TaskRequestDto taskRequestDto;
-    private UserRepository userRepository;
-    private Task task;
+
+    private final TaskMapper taskMapper = new TaskMapperImpl();
+
+    private TaskServiceImpl taskServiceImpl;
+    @MockBean
+    private ObjectMapper map;
+    private String id = "008";
 
     @BeforeEach
     public void setUp() {
@@ -70,7 +76,7 @@ public class TaskServiceTest {
         taskRequestDto.setDueDate(TASK_DUE_TO_DO);
         taskRequestDto.setDone(false);
 
-        task = new Task();
+        Task task = new Task();
         task.setName(TASK_NAME);
         task.setDueDate(TASK_DUE_TO_DO);
         task.setPriority(TASK_PRIORITY);
@@ -105,13 +111,13 @@ public class TaskServiceTest {
 
     @Test
     void testFindTaskByUuid() {
-        String id = "008";
         ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
         when(taskRepository.findTaskByTaskId(idCaptor.capture())).thenReturn(Optional.of(TASK_A));
         taskServiceImpl.findById(id);
         String value = idCaptor.getValue();
         assertThat(value, is(equalTo(id)));
     }
+
 
     @Test
     public void testFindByUuidShouldThrowExceptionWhenEntityNotFound() {
@@ -131,9 +137,26 @@ public class TaskServiceTest {
         assertThat(value, is(equalTo(id)));
     }
 
+    // @Test
+    void findAllTasks() {
+        int size = 2;
+        int from = 1;
+        ArgumentCaptor<Pageable> taskCaptor = ArgumentCaptor.forClass(Pageable.class);
+        taskServiceImpl.findAll(from, size);
+        when(taskRepository.findAll()).thenReturn(createTasks());
+        verify(taskRepository).findAll(taskCaptor.capture());
+
+        Pageable pageable = taskCaptor.getValue();
+        assertThat(pageable, is(
+            pojo(Pageable.class)
+                .where(Pageable::getPageNumber, is(equalTo(1)))
+                .where(Pageable::getPageSize, is(equalTo(2)))
+
+        ));
+    }
+
     @Test
-    void testUpdateTask() {
-        String id = "008";
+    void testUpdateTaskById() {
         when(taskRepository.existsTaskByName("Hello")).thenReturn(false);
         ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
         when(taskRepository.findTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
@@ -150,4 +173,25 @@ public class TaskServiceTest {
                 .where(Task::getTaskId, is(id))
         ));
     }
+
+
+    @Test
+    void testDeleteTaskById() {
+        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+        when(taskRepository.deleteTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
+        taskServiceImpl.deleteById(id);
+        verify(taskRepository, times(1)).save(taskCaptor.capture());
+        Task captureTask = taskCaptor.getValue();
+        assertNull(captureTask.getName());
+    }
+
+    private List<Task> createTasks() {
+        List<Task> list = new ArrayList<>();
+        list.add(new Task(1, "Task1", "005", TASK_DUE_TO_DO));
+        list.add(new Task(2, "Task2", "09", TASK_DUE_TO_DO));
+        list.add(new Task(5, "Task3", "11", TASK_DUE_TO_DO));
+        list.add(new Task(1, "Task4", "002", TASK_DUE_TO_DO));
+        return list;
+    }
+
 }
