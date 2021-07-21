@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
-import com.example.demo.dto.TaskResponseDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
+//ALT+Enter = to generate tests
 
 @Entity
 @NoArgsConstructor
@@ -48,11 +45,11 @@ public class Task implements Serializable {
 
     //@Column(columnDefinition="boolean")
     @Column(columnDefinition = "TINYINT(1)", length = 1)
-    private Boolean done =false;
+    private Boolean done = false;
 
     public Task(int priority, String name, String taskId, LocalDateTime dueDate) {
         this.priority = priority;
-        this.name =name;
+        this.name = name;
         this.taskId = taskId;
         this.dueDate = dueDate;
     }

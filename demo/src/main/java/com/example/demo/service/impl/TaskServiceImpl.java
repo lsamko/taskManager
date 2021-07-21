@@ -104,27 +104,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findTask(LocalDate date) {
-        LocalDate localDate = LocalDate.now();
-        LocalDateTime startDay = localDate.atStartOfDay();
-        LocalDateTime endDay = localDate.atTime(23, 59, 59);
-        //LocalDateTime endDay = localDate.atStartOfDay().plusDays(1).minusSeconds(1);
+        LocalDateTime startDay = date.atStartOfDay();
+        LocalDateTime endDay = date.atTime(23, 59, 59);
         return taskRepository.findTaskByDueDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
     }
 
     @Override
     public void rescheduleTasks(LocalDate date) {
-
         LocalDate localDate = LocalDate.now();
         LocalDateTime startDay = localDate.atStartOfDay();
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
-        for (Task task:toUpdate) {
-            //ToDo  сместить таску на сегодня
-            LocalDateTime currentDate = task.getDueDate().plusDays(1);
-            task.setDueDate(currentDate);
+        for (Task task : toUpdate) {
+            task.setDueDate(startDay);
         }
-
         taskRepository.saveAll(toUpdate);
     }
+
 
 }

@@ -6,6 +6,7 @@ import com.example.demo.dto.TaskUpdateDto;
 import com.example.demo.entity.Task;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 
 public interface TaskService {
@@ -29,6 +30,5 @@ public interface TaskService {
     List<Task> findTask(LocalDate date);
 
    void rescheduleTasks(LocalDate date);
-
 
 }

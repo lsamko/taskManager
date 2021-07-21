@@ -4,11 +4,13 @@ import static com.spotify.hamcrest.pojo.IsPojo.pojo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,7 +26,7 @@ import com.example.demo.mapper.TaskMapper;
 import com.example.demo.mapper.TaskMapperImpl;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.impl.TaskServiceImpl;
-import io.restassured.mapper.ObjectMapper;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +36,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {
@@ -54,17 +60,19 @@ public class TaskServiceTest {
         TASK_DUE_TO_DO
     );
 
-
+    @Captor
+    ArgumentCaptor<Task> taskCaptor;
+    @Captor
+    ArgumentCaptor<String> idCaptor;
     @Mock
     private TaskRepository taskRepository;
-    @Mock
+
     private TaskRequestDto taskRequestDto;
 
     private final TaskMapper taskMapper = new TaskMapperImpl();
 
     private TaskServiceImpl taskServiceImpl;
-    @MockBean
-    private ObjectMapper map;
+    private UserTasksFacade userTasksFacade;
     private String id = "008";
 
     @BeforeEach
@@ -85,7 +93,6 @@ public class TaskServiceTest {
     @Test
     public void testCreateTask() {
         when(taskRepository.existsTaskByName(TASK_NAME)).thenReturn(false);
-        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
         taskServiceImpl.createTask(taskRequestDto);
         verify(taskRepository, times(1)).save(taskCaptor.capture());
         Task captureTask = taskCaptor.getValue();
@@ -111,7 +118,6 @@ public class TaskServiceTest {
 
     @Test
     void testFindTaskByUuid() {
-        ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
         when(taskRepository.findTaskByTaskId(idCaptor.capture())).thenReturn(Optional.of(TASK_A));
         taskServiceImpl.findById(id);
         String value = idCaptor.getValue();
@@ -122,7 +128,6 @@ public class TaskServiceTest {
     @Test
     public void testFindByUuidShouldThrowExceptionWhenEntityNotFound() {
         String id = "005";
-        ArgumentCaptor<String> idCaptor = ArgumentCaptor.forClass(String.class);
         when(taskRepository.findTaskByTaskId(idCaptor.capture())).thenReturn(Optional.empty());
         Executable tryFindById = () -> taskServiceImpl.findById(id);
         TaskNotFoundException exc = assertThrows(TaskNotFoundException.class, tryFindById);
@@ -137,28 +142,26 @@ public class TaskServiceTest {
         assertThat(value, is(equalTo(id)));
     }
 
-    // @Test
+    @Test
     void findAllTasks() {
         int size = 2;
         int from = 1;
-        ArgumentCaptor<Pageable> taskCaptor = ArgumentCaptor.forClass(Pageable.class);
-        taskServiceImpl.findAll(from, size);
-        when(taskRepository.findAll()).thenReturn(createTasks());
-        verify(taskRepository).findAll(taskCaptor.capture());
+        Page<Task> page = createTasks();
 
-        Pageable pageable = taskCaptor.getValue();
-        assertThat(pageable, is(
-            pojo(Pageable.class)
-                .where(Pageable::getPageNumber, is(equalTo(1)))
-                .where(Pageable::getPageSize, is(equalTo(2)))
+        when(taskRepository.findAll(PageRequest.of(from, size))).thenReturn(page);
+        List<TaskResponseDto> tasks = taskServiceImpl.findAll(from, size);
 
-        ));
+        assertEquals(4, tasks.size());
+
+        //TODO replace with Stream
+        for (int i = 0; i < tasks.size(); i++) {
+            assertTaskResponseDTO(page.getContent().get(i), tasks.get(i));
+        }
     }
 
     @Test
     void testUpdateTaskById() {
         when(taskRepository.existsTaskByName("Hello")).thenReturn(false);
-        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
         when(taskRepository.findTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
         TaskResponseDto taskResponse = taskServiceImpl.updateById(id, new TaskUpdateDto().name("Hello"));
 
@@ -177,21 +180,51 @@ public class TaskServiceTest {
 
     @Test
     void testDeleteTaskById() {
-        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
         when(taskRepository.deleteTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
-        taskServiceImpl.deleteById(id);
-        verify(taskRepository, times(1)).save(taskCaptor.capture());
-        Task captureTask = taskCaptor.getValue();
-        assertNull(captureTask.getName());
+        TaskResponseDto taskResponseDto = taskServiceImpl.deleteById(id);
+        assertTaskResponseDTO(TASK_A, taskResponseDto);
     }
 
-    private List<Task> createTasks() {
+    @Test
+    void testDeleteTaskByIdNotFound() {
+        when(taskRepository.deleteTaskByTaskId(id)).thenReturn(Optional.empty());
+        assertThrows(TaskNotFoundException.class, () -> taskServiceImpl.deleteById(id), "Could not find task: " + id);
+    }
+
+    @Test
+    void getUsersTask() {
+    }
+
+    @Test
+    void findTask() {
+        LocalDate localDate = LocalDate.now();
+        LocalDateTime startDay = localDate.atStartOfDay();
+        LocalDateTime endDay = localDate.atTime(23, 59, 59);
+
+        taskServiceImpl.findTask(localDate);
+        verify(taskRepository).findTaskByDueDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
+    }
+
+    @Test
+    void rescheduleTasks() {
+    }
+
+
+    private Page<Task> createTasks() {
         List<Task> list = new ArrayList<>();
         list.add(new Task(1, "Task1", "005", TASK_DUE_TO_DO));
         list.add(new Task(2, "Task2", "09", TASK_DUE_TO_DO));
         list.add(new Task(5, "Task3", "11", TASK_DUE_TO_DO));
         list.add(new Task(1, "Task4", "002", TASK_DUE_TO_DO));
-        return list;
+        return new PageImpl<>(list);
     }
+
+    private void assertTaskResponseDTO(Task task, TaskResponseDto taskResponseDto) {
+        assertEquals(task.getName(), taskResponseDto.getName());
+        assertEquals(task.getTaskId(), taskResponseDto.getTaskId());
+        assertEquals(task.getPriority(), taskResponseDto.getPriority());
+        assertEquals(task.getDueDate(), taskResponseDto.getDueDate());
+    }
+
 
 }
