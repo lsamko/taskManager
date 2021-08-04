@@ -10,6 +10,8 @@ import com.example.demo.service.UserTasksFacade;
 import java.util.List;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,8 +41,9 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserResponseDto> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserResponseDto> getAllUsers(@RequestParam(value = "from", defaultValue = "0") @Min(0) @Valid Integer from,
+        @RequestParam(value = "size", defaultValue = "10")  @Min(10) @Max(100000) @Valid Integer size)  {
+        return userService.getAllUsers(from,  size);
     }
 
     @GetMapping("/{uuid}")

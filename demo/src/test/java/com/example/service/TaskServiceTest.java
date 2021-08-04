@@ -1,16 +1,14 @@
-package com.example.demo.service;
+package com.example.service;
 
 import static com.spotify.hamcrest.pojo.IsPojo.pojo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -31,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,7 +41,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,14 +48,16 @@ public class TaskServiceTest {
 
     private static final String TASK_NAME = "learn English";
     private static final int TASK_PRIORITY = 1;
-    private static final LocalDateTime TASK_DUE_TO_DO = LocalDateTime.of(2021, 10, 9, 12, 00);
+    private static final LocalDateTime TASK_DUE_TO_DO = LocalDateTime.of(2021, 10, 9, 12, 0);
 
 
     private final Task TASK_A = new Task(
-        2,
         "Go fishing",
+        false,
+        2,
         "008",
-        TASK_DUE_TO_DO
+        TASK_DUE_TO_DO,
+        "9"
     );
 
     @Captor
@@ -72,8 +72,9 @@ public class TaskServiceTest {
     private final TaskMapper taskMapper = new TaskMapperImpl();
 
     private TaskServiceImpl taskServiceImpl;
-    private UserTasksFacade userTasksFacade;
-    private String id = "008";
+
+    private final String id = "008";
+    private final LocalDate localDate = LocalDate.now();
 
     @BeforeEach
     public void setUp() {
@@ -126,7 +127,7 @@ public class TaskServiceTest {
 
 
     @Test
-    public void testFindByUuidShouldThrowExceptionWhenEntityNotFound() {
+    public void testFindByUuidNotFound() {
         String id = "005";
         when(taskRepository.findTaskByTaskId(idCaptor.capture())).thenReturn(Optional.empty());
         Executable tryFindById = () -> taskServiceImpl.findById(id);
@@ -153,10 +154,7 @@ public class TaskServiceTest {
 
         assertEquals(4, tasks.size());
 
-        //TODO replace with Stream
-        for (int i = 0; i < tasks.size(); i++) {
-            assertTaskResponseDTO(page.getContent().get(i), tasks.get(i));
-        }
+        IntStream.range(0, tasks.size()).forEach(i -> assertTaskResponseDTO(page.getContent().get(i), tasks.get(i)));
     }
 
     @Test
@@ -177,6 +175,29 @@ public class TaskServiceTest {
         ));
     }
 
+    @Test
+    void testUpdateTaskByIdConflict() {
+        String newName = "Hello";
+        when(taskRepository.existsTaskByName(newName)).thenReturn(true);
+        when(taskRepository.findTaskByTaskId(id)).thenReturn(Optional.of(TASK_A));
+        Executable updateById = () -> taskServiceImpl.updateById(id, new TaskUpdateDto().name("Hello"));
+
+        TaskWithNameAlreadyExistsException exc = assertThrows(TaskWithNameAlreadyExistsException.class, updateById);
+
+        assertThat(exc, is(
+            pojo(Exception.class)
+                .where(Exception::getMessage,
+                    is(equalTo("Task with name '" + newName + "' already exists")))
+        ));
+    }
+
+    @Test
+    void testUpdateTaskByIdNotFound() {
+        String id = "5";
+        when(taskRepository.findTaskByTaskId(id)).thenReturn(Optional.empty());
+        assertThrows(TaskNotFoundException.class,
+            () -> taskServiceImpl.updateById(id, new TaskUpdateDto().name("Hello")), "Could not find task: " + id);
+    }
 
     @Test
     void testDeleteTaskById() {
@@ -193,11 +214,16 @@ public class TaskServiceTest {
 
     @Test
     void getUsersTask() {
+        String userId = "9";
+        List<Task> getListOfTasks = createTasks().getContent();
+        when(taskRepository.findTasksByUserId(userId)).thenReturn(getListOfTasks);
+        List<TaskResponseDto> tasks = taskServiceImpl.getUsersTask(userId);
+        assertEquals(4, tasks.size());
+        IntStream.range(0, tasks.size()).forEach(i -> assertTaskResponseDTO(getListOfTasks.get(i), tasks.get(i)));
     }
 
     @Test
     void findTask() {
-        LocalDate localDate = LocalDate.now();
         LocalDateTime startDay = localDate.atStartOfDay();
         LocalDateTime endDay = localDate.atTime(23, 59, 59);
 
@@ -207,15 +233,18 @@ public class TaskServiceTest {
 
     @Test
     void rescheduleTasks() {
+        LocalDateTime dueDay = localDate.atStartOfDay();
+        taskServiceImpl.rescheduleTasks(LocalDate.now());
+        verify(taskRepository).findTaskByDueDateLessThan(dueDay);
     }
 
 
     private Page<Task> createTasks() {
         List<Task> list = new ArrayList<>();
-        list.add(new Task(1, "Task1", "005", TASK_DUE_TO_DO));
-        list.add(new Task(2, "Task2", "09", TASK_DUE_TO_DO));
-        list.add(new Task(5, "Task3", "11", TASK_DUE_TO_DO));
-        list.add(new Task(1, "Task4", "002", TASK_DUE_TO_DO));
+        list.add(new Task("Task1", false, 1, "005", TASK_DUE_TO_DO, "1"));
+        list.add(new Task("Task2", true, 2, "09", TASK_DUE_TO_DO, "2"));
+        list.add(new Task("Task3", false, 5, "11", TASK_DUE_TO_DO, "3"));
+        list.add(new Task("Task4", false, 1, "002", TASK_DUE_TO_DO, "4"));
         return new PageImpl<>(list);
     }
 
@@ -225,6 +254,5 @@ public class TaskServiceTest {
         assertEquals(task.getPriority(), taskResponseDto.getPriority());
         assertEquals(task.getDueDate(), taskResponseDto.getDueDate());
     }
-
 
 }

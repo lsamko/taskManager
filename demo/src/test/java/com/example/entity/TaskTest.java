@@ -1,7 +1,8 @@
-package com.example.demo.entity;
+package com.example.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.demo.entity.Task;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

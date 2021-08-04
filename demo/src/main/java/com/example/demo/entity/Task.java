@@ -43,15 +43,16 @@ public class Task implements Serializable {
     @Column
     private String userId;
 
-    //@Column(columnDefinition="boolean")
     @Column(columnDefinition = "TINYINT(1)", length = 1)
     private Boolean done = false;
 
-    public Task(int priority, String name, String taskId, LocalDateTime dueDate) {
-        this.priority = priority;
+    public Task(String name,Boolean done, Integer priority,String taskId, LocalDateTime dueDate, String userId) {
         this.name = name;
+        this.done=done;
+        this.priority = priority;
         this.taskId = taskId;
         this.dueDate = dueDate;
+        this.userId = userId;
     }
 }
 

@@ -10,7 +10,7 @@ public interface UserService {
 
     UserResponseDto createUser(UserRequestDto userRequestDto, List<Task> tasks);
 
-    List<UserResponseDto> getAllUsers();
+    List<UserResponseDto> getAllUsers(Integer from, Integer size);
 
     UserResponseDto findById(String uuid);
 

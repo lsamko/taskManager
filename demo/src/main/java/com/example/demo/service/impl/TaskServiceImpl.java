@@ -111,13 +111,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void rescheduleTasks(LocalDate date) {
-        LocalDate localDate = LocalDate.now();
-        LocalDateTime startDay = localDate.atStartOfDay();
+        LocalDateTime startDay = date.atStartOfDay();
+        int dayOfYear = date.getDayOfYear();
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
-        for (Task task : toUpdate) {
-            task.setDueDate(startDay);
-        }
+      toUpdate.forEach (task -> {
+            LocalDateTime currentDate = task.getDueDate().withDayOfYear(dayOfYear);
+            task.setDueDate(currentDate);
+        });
         taskRepository.saveAll(toUpdate);
     }
 
