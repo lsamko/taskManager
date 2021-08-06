@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.quartz.CronExpression;
 import org.springframework.data.annotation.CreatedDate;
 //ALT+Enter = to generate tests
 
@@ -45,6 +46,10 @@ public class Task implements Serializable {
 
     @Column(columnDefinition = "TINYINT(1)", length = 1)
     private Boolean done = false;
+
+    @Basic
+    @Column(name = "CRON", length = 30)
+    private CronExpression cron;
 
     public Task(String name,Boolean done, Integer priority,String taskId, LocalDateTime dueDate, String userId) {
         this.name = name;

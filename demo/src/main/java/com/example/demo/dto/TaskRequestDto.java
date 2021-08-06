@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.quartz.CronExpression;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -28,4 +29,6 @@ public class TaskRequestDto {
     LocalDateTime dueDate;
 
     private Boolean done;
+
+    private CronExpression cron;
 }

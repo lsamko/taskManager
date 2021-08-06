@@ -25,6 +25,7 @@
             <column name="date" type="datetime"/>
             <column name="done" type="TINYINT(1)" defaultValue="0"/>
             <column name="user_id" type="varchar(255)"/>
+            <column name="cron" type="varchar(30)"/>
         </createTable>
     </changeSet>
 
@@ -48,6 +49,7 @@
                 <constraints
                     nullable="false" notNullConstraintName="nn_user_id" validateNullable="true"/>
             </column>
+            <column name="notification" type="varchar(255)"/>
         </createTable>
     </changeSet>
 

@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
@@ -13,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.quartz.CronExpression;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ScheduledExecutorTask;
 
 @Entity
 @NoArgsConstructor
@@ -38,4 +42,13 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
+    @Basic
+    @Column(length = 255)
+    private String notification;
+
+    public User(String firstName, String lastName, String userId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userId = userId;
+    }
 }

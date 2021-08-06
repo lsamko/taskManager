@@ -4,9 +4,14 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
+import org.quartz.CronExpression;
+@Getter
+@Setter
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class TaskUpdateDto {
 
@@ -20,42 +25,7 @@ public class TaskUpdateDto {
     LocalDateTime dueDate;
 
     private boolean done;
-
-    public TaskUpdateDto() {
-        
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
+    private CronExpression cron;
 
     public TaskUpdateDto name(String name) {
         this.name = name;

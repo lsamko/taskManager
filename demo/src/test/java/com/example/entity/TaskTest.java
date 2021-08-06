@@ -12,14 +12,15 @@ class TaskTest {
     Task task;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         task = new Task();
     }
+
     @Test
     void getId() {
         Long idValue = 4L;
         task.setId(idValue);
-        assertEquals (idValue, task.getId());
+        assertEquals(idValue, task.getId());
     }
 
     @Test
@@ -59,7 +60,7 @@ class TaskTest {
 
     @Test
     void getDone() {
-       Boolean doneValue = false;
+        Boolean doneValue = false;
         task.setDone(doneValue);
         assertEquals(doneValue, task.getDone());
     }

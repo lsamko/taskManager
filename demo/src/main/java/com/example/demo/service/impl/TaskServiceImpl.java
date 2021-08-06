@@ -115,7 +115,7 @@ public class TaskServiceImpl implements TaskService {
         int dayOfYear = date.getDayOfYear();
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
-      toUpdate.forEach (task -> {
+        toUpdate.forEach(task -> {
             LocalDateTime currentDate = task.getDueDate().withDayOfYear(dayOfYear);
             task.setDueDate(currentDate);
         });

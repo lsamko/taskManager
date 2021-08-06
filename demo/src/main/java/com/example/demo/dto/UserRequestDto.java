@@ -18,4 +18,6 @@ public class UserRequestDto {
     private String userId;
 
     private List<String> taskIds = new ArrayList<>();
+
+    private String notification;
 }

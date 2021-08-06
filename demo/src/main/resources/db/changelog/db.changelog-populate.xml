@@ -12,6 +12,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value="004"/>
+
         </insert>
 
         <insert tableName="task">
@@ -22,6 +23,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
+            <column name="cron" value="0/10 * * * * *"/>
         </insert>
         <insert tableName="task">
             <column name="id" value="1003"/>
@@ -31,6 +33,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value=""/>
+
         </insert>
 
         <insert tableName="task">
@@ -41,6 +44,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
+            <column name="cron" value="0/10 * * * * *"/>
         </insert>
 
         <insert tableName="task">
@@ -67,6 +71,7 @@
             <column name="first_name" value="Tony"/>
             <column name="last_name"  value="Stark"/>
             <column name="user_id" value="001"/>
+            <column name="notification" value="email"/>
         </insert>
 
         <insert tableName="user">
@@ -74,6 +79,7 @@
             <column name="first_name" value="Peggy"/>
             <column name="last_name"  value="Carter"/>
             <column name="user_id" value="004"/>
+            <column name="notification" value="sms"/>
         </insert>
 
         <insert tableName="user_tasks">

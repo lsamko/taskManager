@@ -12,8 +12,10 @@ CREATE TABLE task
     name     VARCHAR(255) NOT NULL,
     task_id  VARCHAR(255) NOT NULL,
     date     DATETIME,
-    done    TINYINT(1) DEFAULT '0',
+    done     TINYINT(1) DEFAULT '0',
     user_id  VARCHAR(255),
+    cron     VARCHAR(30),
+
     CONSTRAINT UNIQUE_NAME
         UNIQUE (name),
     CONSTRAINT PK_ID
@@ -22,10 +24,11 @@ CREATE TABLE task
 
 CREATE TABLE user
 (
-    id         BIGINT AUTO_INCREMENT NOT NULL,
-    first_name VARCHAR(255) NOT NULL,
-    last_name  VARCHAR(255) NOT NULL,
-    user_id    VARCHAR(255) NOT NULL,
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    first_name   VARCHAR(255) NOT NULL,
+    last_name    VARCHAR(255) NOT NULL,
+    user_id      VARCHAR(255) NOT NULL,
+    notification VARCHAR(255),
 
     CONSTRAINT PK_USER_ID
         PRIMARY KEY (id)
