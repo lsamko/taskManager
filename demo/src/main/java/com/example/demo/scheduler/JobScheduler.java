@@ -40,7 +40,7 @@ public class JobScheduler {
         logs.send(message);
 
         NotificationSender sms = notificationFactory.getNotification(Notification.MESSAGE);
-        sms.send(message);
+       // sms.send(message);
 
     }
 

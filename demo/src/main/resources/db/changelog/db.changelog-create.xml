@@ -67,7 +67,6 @@
             constraintName="PK_USER_TASKS_ID"
             tableName="user_tasks"
             validate="true"/>
-
     </changeSet>
 
 </databaseChangeLog>

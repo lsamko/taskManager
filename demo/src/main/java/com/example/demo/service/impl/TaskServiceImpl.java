@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.converter.CronExpressionConverter;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
@@ -9,11 +10,15 @@ import com.example.demo.exception.TaskWithNameAlreadyExistsException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.TaskService;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import liquibase.pro.packaged.S;
 import lombok.RequiredArgsConstructor;
 import org.quartz.CronExpression;
 import org.springframework.data.domain.Page;
@@ -28,6 +33,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final CronExpressionConverter converter;
 
     @Override
     public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
@@ -117,12 +123,21 @@ public class TaskServiceImpl implements TaskService {
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
         toUpdate.forEach(task -> {
-           // CronExpression cronExpression = task.getCron();
-            LocalDateTime currentDate = task.getDueDate().withDayOfYear(dayOfYear);
-            task.setDueDate(currentDate);
+            Date getCron = getNextExecution(task.getCron());
+            LocalDateTime nextSchedulerDate = convertToLocalDateTimeViaInstant(getCron);
+            task.setDueDate(nextSchedulerDate);
         });
         taskRepository.saveAll(toUpdate);
     }
 
+    public static Date getNextExecution(CronExpression cronExpression) {
+        CronExpression cron = new CronExpression(cronExpression);
+        return cron.getNextValidTimeAfter(new Date(System.currentTimeMillis()));
+    }
 
+    public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
+    }
 }

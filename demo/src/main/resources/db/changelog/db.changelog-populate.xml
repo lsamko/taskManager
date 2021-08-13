@@ -12,6 +12,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value="004"/>
+            <column name="cron" value="0 * * ? * *"/>
 
         </insert>
 
@@ -23,8 +24,9 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
-            <column name="cron" value="0/10 * * * * *"/>
+            <column name="cron" value="0 */2 * ? * *"/>
         </insert>
+
         <insert tableName="task">
             <column name="id" value="1003"/>
             <column name="priority" value="1"/>
@@ -32,7 +34,7 @@
             <column name="task_id" value="003"/>
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
-            <column name="user_id" value=""/>
+            <column name="cron" value="0 0 12 ? * SUN"/>
 
         </insert>
 
@@ -44,7 +46,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
-            <column name="cron" value="0/10 * * * * *"/>
+            <column name="cron" value="0 0 1 * * ?"/>
         </insert>
 
         <insert tableName="task">
@@ -55,7 +57,9 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="1"/>
             <column name="user_id" value=""/>
+            <column name="cron" value="0 0 12 ? * TUE"/>
         </insert>
+
         <insert tableName="task">
             <column name="id" value="1006"/>
             <column name="priority" value="4"/>
@@ -64,6 +68,7 @@
             <column name="date" value="2021-07-12T06:30:00"/>
             <column name="done" value="0"/>
             <column name="user_id" value=""/>
+            <column name="cron" value="0 0 */6 ? * *"/>
         </insert>
 
         <insert tableName="user">

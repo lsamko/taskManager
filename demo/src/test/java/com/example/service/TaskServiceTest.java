@@ -14,6 +14,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.demo.converter.CronExpressionConverter;
 import com.example.demo.dto.TaskRequestDto;
 import com.example.demo.dto.TaskResponseDto;
 import com.example.demo.dto.TaskUpdateDto;
@@ -67,6 +68,8 @@ public class TaskServiceTest {
     @Mock
     private TaskRepository taskRepository;
 
+    private CronExpressionConverter converter;
+
     private TaskRequestDto taskRequestDto;
 
     private final TaskMapper taskMapper = new TaskMapperImpl();
@@ -78,7 +81,7 @@ public class TaskServiceTest {
 
     @BeforeEach
     public void setUp() {
-        taskServiceImpl = new TaskServiceImpl(taskRepository, taskMapper);
+        taskServiceImpl = new TaskServiceImpl(taskRepository, taskMapper, converter);
         taskRequestDto = new TaskRequestDto();
         taskRequestDto.setPriority(TASK_PRIORITY);
         taskRequestDto.setName(TASK_NAME);
