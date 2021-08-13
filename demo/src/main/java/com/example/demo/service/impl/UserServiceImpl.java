@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
         }
         toUpdate.setLastName(userUpdateDto.getLastName());
         toUpdate.setFirstName(userUpdateDto.getFirstName());
+        userRepository.save(toUpdate);
         return userMapper.fromEntityToResponseDto(toUpdate);
     }
 

@@ -1,8 +1,11 @@
 package com.example.demo.scheduler;
 
 import com.example.demo.entity.Task;
+import com.example.demo.notification.Notification;
+import com.example.demo.notification.NotificationFactory;
+import com.example.demo.notification.NotificationSender;
 import com.example.demo.service.TaskService;
-import com.example.demo.twilio.MessageSenderService;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,11 +22,11 @@ import org.springframework.stereotype.Component;
 public class JobScheduler {
 
     private final TaskService taskService;
-    private final MessageSenderService messageSenderService;
+    private final NotificationFactory notificationFactory;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Scheduled(cron = "${task-manager.job.tasks.cron}")
-    void processTodaysTasks() {
+    void processTodaysTasks() throws IOException {
         log.debug("Task processing...");
         List<Task> tasks = taskService.findTask(LocalDate.now());
         List<String> taskDescriptions = tasks
@@ -32,7 +35,13 @@ public class JobScheduler {
             .collect(
                 Collectors.toList());
         String message = "Your tasks for today: " + StringUtils.join(taskDescriptions, ',');
-        messageSenderService.sendTasks(message);
+
+        NotificationSender logs = notificationFactory.getNotification(Notification.LOGS);
+        logs.send(message);
+
+        NotificationSender sms = notificationFactory.getNotification(Notification.MESSAGE);
+        sms.send(message);
+
     }
 
     @Scheduled(cron = "${task-manager.job.tasks.reschedule.cron}")
@@ -40,4 +49,5 @@ public class JobScheduler {
         log.debug("Task reschedule started...");
         taskService.rescheduleTasks(LocalDate.now());
     }
+
 }

@@ -1,9 +1,11 @@
 package com.example.demo.entity;
 
+import com.example.demo.converter.CronExpressionConverter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,6 +51,7 @@ public class Task implements Serializable {
 
     @Basic
     @Column(name = "CRON", length = 30)
+    @Convert(converter = CronExpressionConverter.class)
     private CronExpression cron;
 
     public Task(String name,Boolean done, Integer priority,String taskId, LocalDateTime dueDate, String userId) {

@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.quartz.CronExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -116,6 +117,7 @@ public class TaskServiceImpl implements TaskService {
 
         List<Task> toUpdate = taskRepository.findTaskByDueDateLessThan(startDay);
         toUpdate.forEach(task -> {
+           // CronExpression cronExpression = task.getCron();
             LocalDateTime currentDate = task.getDueDate().withDayOfYear(dayOfYear);
             task.setDueDate(currentDate);
         });

@@ -1,5 +1,5 @@
 package com.example.service;
-
+import static com.spotify.hamcrest.pojo.IsPojo.pojo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -143,7 +143,7 @@ class UserServiceTest {
     @Test
     void deleteById() {
         userService.deleteById(id);
-        assertThat(id, is(equalTo("008")));
+        verify(userRepository).deleteUserByUserId(id);
     }
 
     @Test
@@ -152,22 +152,22 @@ class UserServiceTest {
         String newLastName = "Pfeiffer";
         when(userRepository.existsUserByFirstName(newFirstName)).thenReturn(false);
         when(userRepository.existsUserByLastName(newLastName)).thenReturn(false);
-        when(userRepository.findUserByUserId(id)).thenReturn(Optional.of(USER));
+        when(userRepository.findUserByUserId(USER.getUserId())).thenReturn(Optional.of(USER));
 
-        UserResponseDto userResponseDto = userService.updateById(id,
+        UserResponseDto userResponseDto = userService.updateById(USER.getUserId(),
             new UserUpdateDto().update(newFirstName, newLastName));
 
         assertThat(userResponseDto.getFirstName(), is(newFirstName));
         assertThat(userResponseDto.getLastName(), is(newLastName));
 
-//        verify(userRepository, times(1)).save(userCaptor.capture());
-//        User user = userCaptor.getValue();
-//        assertThat(user, is(
-//            pojo(User.class)
-//                .where(User::getFirstName, is(newFirstName))
-//                .where(User::getLastName, is(newLastName))
-//                .where(User::getUserId, is(id))
-//        ));
+        verify(userRepository).save(userCaptor.capture());
+        User user = userCaptor.getValue();
+        assertThat(user, is(
+            pojo(User.class)
+                .where(User::getFirstName, is(newFirstName))
+                .where(User::getLastName, is(newLastName))
+                .where(User::getUserId, is(USER.getUserId()))
+        ));
     }
 
     @Test
