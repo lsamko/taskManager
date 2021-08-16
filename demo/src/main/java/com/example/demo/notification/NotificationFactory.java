@@ -1,29 +1,20 @@
 package com.example.demo.notification;
 
-import com.example.demo.twilio.MessageSenderService;
-import com.example.demo.twilio.TwilioProperties;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class NotificationFactory {
 
-    private final TwilioProperties twilioProperties;
+    private final List<NotificationSender> notificationSenders;
 
-    public NotificationFactory(TwilioProperties twilioProperties) {
-        this.twilioProperties = twilioProperties;
+    public NotificationFactory( List<NotificationSender> notificationSenders) {
+        this.notificationSenders = notificationSenders;
     }
 
     public NotificationSender getNotification(Notification notification) {
-        if (notification == null) {
-            return null;
-        }
-        if (notification.equals(Notification.LOGS)) {
-            return new LogsSenderService();
-        } else if (notification.equals(Notification.EMAIL)) {
-            return new EmailSenderService();
-        } else if (notification.equals(Notification.MESSAGE)) {
-            return new MessageSenderService(twilioProperties);
-        }
-        return null;
+
+        return notificationSenders.stream().filter(notificationSender -> notification.equals(notificationSender.getNotificationType()))
+            .findFirst().orElseThrow(()-> new RuntimeException("Notification sender not found"));
     }
 }

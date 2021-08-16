@@ -231,7 +231,7 @@ public class TaskServiceTest {
         LocalDateTime endDay = localDate.atTime(23, 59, 59);
 
         taskServiceImpl.findTask(localDate);
-        verify(taskRepository).findTaskByDueDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
+        verify(taskRepository).findTaskByDueDateBetweenAndDone(startDay, endDay, false, Sort.by("priority"));
     }
 
     @Test
