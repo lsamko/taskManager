@@ -10,7 +10,6 @@ import com.example.demo.exception.TaskWithNameAlreadyExistsException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.TaskService;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -18,7 +17,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import liquibase.pro.packaged.S;
 import lombok.RequiredArgsConstructor;
 import org.quartz.CronExpression;
 import org.springframework.data.domain.Page;
@@ -113,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findTask(LocalDate date) {
         LocalDateTime startDay = date.atStartOfDay();
         LocalDateTime endDay = date.atTime(23, 59, 59);
-        return taskRepository.findTaskByDueDateBetweenAndDoneNot(startDay, endDay, false, Sort.by("priority"));
+        return taskRepository.findTaskByDueDateBetweenAndDone(startDay, endDay, false, Sort.by("priority"));
     }
 
     @Override

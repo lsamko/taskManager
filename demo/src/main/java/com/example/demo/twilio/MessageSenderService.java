@@ -1,6 +1,7 @@
 package com.example.demo.twilio;
 
 
+import com.example.demo.notification.Notification;
 import com.example.demo.notification.NotificationSender;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -25,6 +26,11 @@ public class MessageSenderService  implements NotificationSender {
             new PhoneNumber("+12055761544"),
             messageBody).create();
         log.info(message.getSid());
+    }
+
+    @Override
+    public Notification getNotificationType() {
+        return Notification.MESSAGE;
     }
 
     private String prepareMessageBody(String body) {

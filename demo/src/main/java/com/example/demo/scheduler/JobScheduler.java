@@ -1,5 +1,6 @@
 package com.example.demo.scheduler;
 
+import com.example.demo.dto.EmailPostRequestBody;
 import com.example.demo.entity.Task;
 import com.example.demo.notification.Notification;
 import com.example.demo.notification.NotificationFactory;
@@ -40,8 +41,10 @@ public class JobScheduler {
         logs.send(message);
 
         NotificationSender sms = notificationFactory.getNotification(Notification.MESSAGE);
-       // sms.send(message);
+        // sms.send(message);
 
+        NotificationSender email = notificationFactory.getNotification(Notification.EMAIL);
+        email.send(message);
     }
 
     @Scheduled(cron = "${task-manager.job.tasks.reschedule.cron}")
