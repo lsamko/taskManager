@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class EmailSenderController {
+
     @Autowired
     public JavaMailSender emailSender;
+    @Autowired
+    public MyConstants myConstants;
 
     @ResponseBody
     @RequestMapping("/sendSimpleEmail")
@@ -18,7 +21,7 @@ public class EmailSenderController {
 
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setTo(MyConstants.FRIEND_EMAIL);
+        message.setTo(myConstants.getFriendEmail());
         message.setSubject("Test Simple Email");
         message.setText("Hello, Im testing Simple Email");
 

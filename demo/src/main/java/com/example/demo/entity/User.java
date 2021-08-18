@@ -8,6 +8,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,6 +43,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(length = 255)
+    @Enumerated(EnumType.STRING)
     private Notification notification;
 
     public User(String firstName, String lastName, String userId) {

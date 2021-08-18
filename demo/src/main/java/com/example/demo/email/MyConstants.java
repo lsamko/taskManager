@@ -1,10 +1,20 @@
 package com.example.demo.email;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@Getter
+@Setter
+@ConfigurationProperties(prefix = "mail")
 public class MyConstants {
-    public static final String MY_EMAIL="";
 
-    public static final String MY_PASSWORD="";
+    private String myEmail;
 
-    public static final String FRIEND_EMAIL = "liuda.samko@gmail.com";
+    private String myPassword;
+
+    private String friendEmail;
 
 }

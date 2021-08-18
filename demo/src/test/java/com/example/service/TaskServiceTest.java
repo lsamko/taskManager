@@ -238,7 +238,7 @@ public class TaskServiceTest {
     void rescheduleTasks() {
         LocalDateTime dueDay = localDate.atStartOfDay();
         taskServiceImpl.rescheduleTasks(LocalDate.now());
-        verify(taskRepository).findTaskByDueDateLessThan(dueDay);
+        verify(taskRepository).findTaskByDueDateLessThanAndCronNotNull(dueDay);
     }
 
 
