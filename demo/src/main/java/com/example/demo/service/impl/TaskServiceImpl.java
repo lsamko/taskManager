@@ -102,8 +102,7 @@ public class TaskServiceImpl implements TaskService {
         return !toUpdate.getName().equals(taskName);
     }
 
-    @Override
-    public boolean isTaskWithNameExists(String name) {
+    private boolean isTaskWithNameExists(String name) {
         return taskRepository.existsTaskByName(name);
     }
 

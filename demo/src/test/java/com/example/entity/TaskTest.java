@@ -46,7 +46,7 @@ class TaskTest {
 
     @Test
     void getDueDate() {
-        LocalDateTime dueDateValue = LocalDateTime.of(2021, 10, 9, 12, 00);
+        LocalDateTime dueDateValue = LocalDateTime.of(2021, 10, 9, 12, 0);
         task.setDueDate(dueDateValue);
         assertEquals(dueDateValue, task.getDueDate());
     }
@@ -61,7 +61,7 @@ class TaskTest {
     @Test
     void getDone() {
         Boolean doneValue = false;
-        task.setDone(doneValue);
-        assertEquals(doneValue, task.getDone());
+        task.setDone(false);
+        assertEquals(false, task.getDone());
     }
 }

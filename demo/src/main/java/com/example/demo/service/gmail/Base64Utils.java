@@ -1,4 +1,4 @@
-package com.example.demo.gmail;
+package com.example.demo.service.gmail;
 
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.binary.Base64;

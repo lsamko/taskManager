@@ -3,10 +3,12 @@ package com.example.demo.converter;
 import java.text.ParseException;
 import java.util.Objects;
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import org.quartz.CronExpression;
 import org.springframework.stereotype.Component;
 
 @Component
+@Converter
 public class CronExpressionConverter implements AttributeConverter<CronExpression,String > {
 
     @Override

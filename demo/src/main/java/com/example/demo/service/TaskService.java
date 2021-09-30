@@ -24,8 +24,6 @@ public interface TaskService {
 
     List<TaskResponseDto> getUsersTask(String userId);
 
-    boolean isTaskWithNameExists(String name);
-
     List<Task> findTask(LocalDate date);
 
     void rescheduleTasks(LocalDate date);

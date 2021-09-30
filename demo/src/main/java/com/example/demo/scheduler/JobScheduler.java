@@ -1,12 +1,10 @@
 package com.example.demo.scheduler;
 
-import com.example.demo.dto.EmailPostRequestBody;
 import com.example.demo.entity.Task;
 import com.example.demo.notification.Notification;
 import com.example.demo.notification.NotificationFactory;
 import com.example.demo.notification.NotificationSender;
 import com.example.demo.service.TaskService;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -27,7 +25,7 @@ public class JobScheduler {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Scheduled(cron = "${task-manager.job.tasks.cron}")
-    void processTodaysTasks() throws IOException {
+    void processTodaysTasks() {
         log.debug("Task processing...");
         List<Task> tasks = taskService.findTask(LocalDate.now());
         List<String> taskDescriptions = tasks

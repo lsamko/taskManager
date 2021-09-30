@@ -87,13 +87,11 @@ public class UserServiceImpl implements UserService {
         return !toUpdate.getLastName().equals(userName);
     }
 
-    @Override
-    public boolean isUserWithLastNameExists(String lastName) {
+    private boolean isUserWithLastNameExists(String lastName) {
         return userRepository.existsUserByLastName(lastName);
     }
 
-    @Override
-    public boolean isUserWithFirstNameExists(String firstName) {
+    private boolean isUserWithFirstNameExists(String firstName) {
         return userRepository.existsUserByFirstName(firstName);
     }
 

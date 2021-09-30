@@ -1,6 +1,5 @@
-package com.example.demo.gmail;
+package com.example.demo.service.gmail;
 
-import static com.example.demo.gmail.Base64Utils.decodeBase64;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 

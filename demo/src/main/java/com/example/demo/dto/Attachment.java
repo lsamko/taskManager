@@ -8,18 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Attachment {
+
     @JsonProperty("fileName")
-    private  String fileName;
+    private String fileName;
 
     @JsonProperty("content")
-    private  String content;
+    private String content;
 
     @JsonProperty("additions")
     private Map<String, String> additions = null;
 
 
-    public Attachment fileName(String fileName) {
-        this.fileName = fileName;
-        return this;
-    }
 }

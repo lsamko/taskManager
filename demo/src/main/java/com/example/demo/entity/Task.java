@@ -54,14 +54,15 @@ public class Task implements Serializable {
     @Convert(converter = CronExpressionConverter.class)
     private CronExpression cron;
 
-    public Task(String name,Boolean done, Integer priority,String taskId, LocalDateTime dueDate, String userId) {
+    public Task(String name, Boolean done, Integer priority, String taskId, LocalDateTime dueDate, String userId) {
         this.name = name;
-        this.done=done;
+        this.done = done;
         this.priority = priority;
         this.taskId = taskId;
         this.dueDate = dueDate;
         this.userId = userId;
     }
+
 }
 
 

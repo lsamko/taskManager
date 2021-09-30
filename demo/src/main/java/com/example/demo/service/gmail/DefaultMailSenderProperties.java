@@ -1,4 +1,4 @@
-package com.example.demo.gmail;
+package com.example.demo.service.gmail;
 
 import javax.validation.constraints.Pattern;
 import lombok.Getter;

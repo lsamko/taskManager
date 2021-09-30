@@ -18,10 +18,6 @@ public interface UserService {
 
     UserResponseDto updateById(String uuid, UserUpdateDto userUpdateDto);
 
-    boolean isUserWithLastNameExists(String lastName);
-
-    boolean isUserWithFirstNameExists(String firstName);
-
     boolean existsByUserId(String uuid);
 
 }

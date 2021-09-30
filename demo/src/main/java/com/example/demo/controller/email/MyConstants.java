@@ -1,4 +1,4 @@
-package com.example.demo.email;
+package com.example.demo.controller.email;
 
 import lombok.Getter;
 import lombok.Setter;
